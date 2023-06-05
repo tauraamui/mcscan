@@ -16,12 +16,53 @@ func main() {
 
 	fs := must(filepath.Glob(rootpath))
 	for _, f := range fs {
-		scan(f)
+		scanChunksSections(f)
 	}
 
 }
 
-func scan(path string) {
+func scanChunksSections(path string) {
+	r0, err := region.Open(path)
+	if err != nil {
+		panic(err)
+	}
+
+	defer r0.Close()
+
+	for i := 0; i < 32; i++ {
+		for j := 0; j < 32; j++ {
+			if !r0.ExistSector(i, j) {
+				continue
+			}
+
+			data := must(r0.ReadSector(i, j))
+
+			var sc save.Chunk
+			sc.Load(data)
+
+			lc := must(level.ChunkFromSave(&sc))
+
+			count := len(lc.Sections)
+
+			if count == 0 {
+				continue
+			}
+
+			for i := 0; i < count; i++ {
+				sec := lc.Sections[i]
+				blockCount := sec.BlockCount
+				if blockCount == 0 {
+					continue
+				}
+				bstate := sec.GetBlock(0)
+				fmt.Printf("BLOCKS 0 state: %+v\n", block.StateList[bstate].ID())
+				fmt.Printf("BLOCKS: %d\n", blockCount)
+			}
+		}
+	}
+}
+
+func scanChunksBlockEntities(path string) {
 	r0, err := region.Open(path)
 	if err != nil {
 		panic(err)
@@ -46,11 +87,11 @@ func scan(path string) {
 			if count == 0 {
 				continue
 			}
-			fmt.Printf("%s - %d item blocks in chunk\n", filepath.Base(path), count)
+			fmt.Printf("%s [X/Y/Z]: [%d, %d, %d] - %d item blocks in chunk\n", filepath.Base(path), sc.XPos, sc.YPos, sc.ZPos, count)
 
 			for i := 0; i < count; i++ {
 				x, z := lc.BlockEntity[i].UnpackXZ()
-				y := lc.BlockEntity[i].Y
+				y := int(lc.BlockEntity[i].Y)
 
 				fmt.Printf("\t%d [X/Y/Z]: [%d, %d, %d] TYPE: %v\n", i, x, y, z, block.EntityList[lc.BlockEntity[i].Type].ID())
 			}
