@@ -1,6 +1,7 @@
 package main
 
 import (
+	"compress/gzip"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -12,6 +13,7 @@ import (
 )
 
 func main() {
+
 	rootpath := filepath.Join("testdata", "region", "*.mca")
 
 	fs := must(filepath.Glob(rootpath))
@@ -19,6 +21,14 @@ func main() {
 		scanChunksSections(f)
 	}
 
+	playerDataFD := must(os.Open(filepath.Join("testdata", "playerdata", "480c70ff-1bf6-44e3-8e42-f365f2d4fbef.dat")))
+	defer playerDataFD.Close()
+
+	gReader := must(gzip.NewReader(playerDataFD))
+
+	data := must(save.ReadPlayerData(gReader))
+
+	fmt.Printf("PLAYER DATA: %+v\n", data)
 }
 
 func scanChunksSections(path string) {
