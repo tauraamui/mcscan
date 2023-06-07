@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/Tnze/go-mc/level"
 	"github.com/Tnze/go-mc/level/block"
@@ -21,6 +22,9 @@ func main() {
 		scanChunksSections(f)
 	}
 
+}
+
+func scanPlayerData() {
 	playerDataFD := must(os.Open(filepath.Join("testdata", "playerdata", "480c70ff-1bf6-44e3-8e42-f365f2d4fbef.dat")))
 	defer playerDataFD.Close()
 
@@ -60,13 +64,19 @@ func scanChunksSections(path string) {
 
 			for i := 0; i < count; i++ {
 				sec := lc.Sections[i]
-				blockCount := sec.BlockCount
+				blockCount := int(sec.BlockCount)
 				if blockCount == 0 {
 					continue
 				}
-				bstate := sec.GetBlock(0)
-				fmt.Printf("BLOCKS 0 state: %+v\n", block.StateList[bstate].ID())
-				fmt.Printf("BLOCKS: %d\n", blockCount)
+
+				for j := 0; j < blockCount; j++ {
+					bstate := sec.GetBlock(j)
+
+					stateID := block.StateList[bstate].ID()
+					if strings.Contains(stateID, "_ore") {
+						fmt.Printf("BLOCKS %d state: %+v\n", j, block.StateList[bstate].ID())
+					}
+				}
 			}
 		}
 	}
