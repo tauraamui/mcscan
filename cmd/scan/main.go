@@ -2,6 +2,7 @@ package main
 
 import (
 	"compress/gzip"
+	"encoding/binary"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -10,17 +11,25 @@ import (
 	"github.com/Tnze/go-mc/level/block"
 	"github.com/Tnze/go-mc/save"
 	"github.com/Tnze/go-mc/save/region"
+	"github.com/dgraph-io/badger/v3"
+	"github.com/tauraamui/mcscan/storage"
 )
 
 func main() {
 
 	rootpath := filepath.Join("testdata", "region", "*.mca")
 
+	db := must(storage.NewMemDB())
+	defer db.Close()
+
 	fs := must(filepath.Glob(rootpath))
 	for _, f := range fs {
-		scanChunksSections(f)
+		scanChunksSections(f, &db)
 	}
 
+	if err := db.DumpToStdout(); err != nil {
+		panic(err)
+	}
 }
 
 func scanPlayerData() {
@@ -34,7 +43,14 @@ func scanPlayerData() {
 	fmt.Printf("PLAYER DATA: %+v\n", data)
 }
 
-func scanChunksSections(path string) {
+func scanChunksSections(path string, db *storage.DB) {
+	adders := map[string]*badger.MergeOperator{}
+	defer func() {
+		for _, adder := range adders {
+			adder.Stop()
+		}
+	}()
+
 	r0, err := region.Open(path)
 	if err != nil {
 		panic(err)
@@ -69,17 +85,35 @@ func scanChunksSections(path string) {
 				}
 
 				for j := 0; j < blockCount; j++ {
-					bstate := sec.GetBlock(j)
+					b := block.StateList[sec.GetBlock(j)]
 
-					b := block.StateList[bstate]
-					switch b.(type) {
-					case block.DiamondOre:
-						fmt.Printf("BLOCKS %d state: %+v\n", j, b.ID())
+					if block.IsAirBlock(b) {
+						continue
 					}
+
+					blockCountKey := fmt.Sprintf("%s:%s", b.ID(), "frequency")
+
+					adder, ok := adders[blockCountKey]
+					if !ok {
+						adder = db.Adder([]byte(blockCountKey))
+						adders[blockCountKey] = adder
+					}
+
+					adder.Add(uint64ToBytes(1))
 				}
 			}
 		}
 	}
+}
+
+func uint64ToBytes(i uint64) []byte {
+	var buf [8]byte
+	binary.BigEndian.PutUint64(buf[:], i)
+	return buf[:]
+}
+
+func bytesToUint64(b []byte) uint64 {
+	return binary.BigEndian.Uint64(b)
 }
 
 func scanChunksBlockEntities(path string) {

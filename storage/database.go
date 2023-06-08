@@ -1,9 +1,11 @@
 package storage
 
 import (
+	"encoding/binary"
 	"fmt"
 	"io"
 	"os"
+	"time"
 
 	"github.com/dgraph-io/badger/v3"
 )
@@ -29,6 +31,15 @@ func newDB(inMemory bool) (DB, error) {
 	return DB{conn: db}, nil
 }
 
+func (db DB) Adder(key []byte) *badger.MergeOperator {
+	return db.conn.GetMergeOperator(key, add, 200*time.Millisecond)
+}
+
+// Merge function to add two uint64 numbers
+func add(existing, new []byte) []byte {
+	return uint64ToBytes(bytesToUint64(existing) + bytesToUint64(new))
+}
+
 func (db DB) GetSeq(key []byte, bandwidth uint64) (*badger.Sequence, error) {
 	return db.conn.GetSequence(key, bandwidth)
 }
@@ -51,7 +62,7 @@ func (db DB) DumpTo(w io.Writer) error {
 			item := it.Item()
 			k := item.Key()
 			err := item.Value(func(v []byte) error {
-				fmt.Fprintf(w, "key=%s, value=%s\n", k, v)
+				fmt.Fprintf(w, "key=%s, value=%d\n", k, bytesToUint64(v))
 				return nil
 			})
 			if err != nil {
@@ -60,6 +71,16 @@ func (db DB) DumpTo(w io.Writer) error {
 		}
 		return nil
 	})
+}
+
+func uint64ToBytes(i uint64) []byte {
+	var buf [8]byte
+	binary.BigEndian.PutUint64(buf[:], i)
+	return buf[:]
+}
+
+func bytesToUint64(b []byte) uint64 {
+	return binary.BigEndian.Uint64(b)
 }
 
 func (db DB) DumpToStdout() error {
