@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/Tnze/go-mc/level"
 	"github.com/Tnze/go-mc/level/block"
@@ -72,9 +71,10 @@ func scanChunksSections(path string) {
 				for j := 0; j < blockCount; j++ {
 					bstate := sec.GetBlock(j)
 
-					stateID := block.StateList[bstate].ID()
-					if strings.Contains(stateID, "_ore") {
-						fmt.Printf("BLOCKS %d state: %+v\n", j, block.StateList[bstate].ID())
+					b := block.StateList[bstate]
+					switch b.(type) {
+					case block.DiamondOre:
+						fmt.Printf("BLOCKS %d state: %+v\n", j, b.ID())
 					}
 				}
 			}
