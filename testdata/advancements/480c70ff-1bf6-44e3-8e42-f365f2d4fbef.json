@@ -7,6 +7,8 @@
   },
   "minecraft:adventure/adventuring_time": {
     "criteria": {
+      "minecraft:dripstone_caves": "2023-06-09 01:51:14 +0100",
+      "minecraft:flower_forest": "2023-06-09 01:50:59 +0100",
       "minecraft:plains": "2023-06-09 00:14:16 +0100"
     },
     "done": false
@@ -83,12 +85,6 @@
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/emerald_block": {
-    "criteria": {
-      "has_emerald": "2023-06-09 00:24:37 +0100"
-    },
-    "done": true
-  },
   "minecraft:recipes/decorations/moss_carpet": {
     "criteria": {
       "has_moss_block": "2023-06-09 00:24:25 +0100"
@@ -104,6 +100,18 @@
   "minecraft:recipes/building_blocks/mossy_stone_bricks_from_moss_block": {
     "criteria": {
       "has_moss_block": "2023-06-09 00:24:25 +0100"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/emerald_block": {
+    "criteria": {
+      "has_emerald": "2023-06-09 00:24:37 +0100"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/slime_ball": {
+    "criteria": {
+      "has_slime_block": "2023-06-09 13:51:24 +0100"
     },
     "done": true
   },
