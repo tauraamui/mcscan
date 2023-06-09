@@ -3,6 +3,7 @@ package main
 import (
 	"compress/gzip"
 	"encoding/binary"
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -16,7 +17,7 @@ import (
 )
 
 func main() {
-	storeBlockFrequencies()
+	//storeBlockFrequencies()
 	scanPlayerData()
 }
 
@@ -36,15 +37,42 @@ func storeBlockFrequencies() {
 	}
 }
 
+type blockEntityTag struct {
+	Items []save.Item
+}
+
+func (b *blockEntityTag) unmarshal(d any) error {
+	data, err := json.Marshal(d)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(data, b)
+}
+
 func scanPlayerData() {
-	playerDataFD := must(os.Open(filepath.Join("testdata", "playerdata", "480c70ff-1bf6-44e3-8e42-f365f2d4fbef.dat")))
+	uuid := "480c70ff-1bf6-44e3-8e42-f365f2d4fbef"
+	playerDataFD := must(os.Open(filepath.Join("testdata", "playerdata", uuid+".dat")))
 	defer playerDataFD.Close()
 
 	gReader := must(gzip.NewReader(playerDataFD))
 
 	data := must(save.ReadPlayerData(gReader))
 
-	fmt.Printf("PLAYER DATA: %+v\n", data)
+	fmt.Printf("%s's ender chest contents:\n", uuid)
+	for _, i := range data.EnderItems {
+		fmt.Printf("    %s\n", i.ID)
+		if len(i.Tag) > 0 {
+			if beTagData, ok := i.Tag["BlockEntityTag"]; ok {
+				beTag := blockEntityTag{}
+				beTag.unmarshal(beTagData)
+				fmt.Printf("    contains:\n")
+				for _, item := range beTag.Items {
+					fmt.Printf("        %+v\n", item)
+				}
+			}
+		}
+	}
 }
 
 func scanChunksSections(path string, db *storage.DB) {
