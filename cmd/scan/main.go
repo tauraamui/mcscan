@@ -16,7 +16,11 @@ import (
 )
 
 func main() {
+	storeBlockFrequencies()
+	scanPlayerData()
+}
 
+func storeBlockFrequencies() {
 	rootpath := filepath.Join("testdata", "region", "*.mca")
 
 	db := must(storage.NewMemDB())
@@ -70,6 +74,11 @@ func scanChunksSections(path string, db *storage.DB) {
 			sc.Load(data)
 
 			lc := must(level.ChunkFromSave(&sc))
+
+			for i := 0; i < len(lc.BlockEntity); i++ {
+				be := lc.BlockEntity[i]
+				fmt.Printf("%s\n", be.Data.String())
+			}
 
 			count := len(lc.Sections)
 
