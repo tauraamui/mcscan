@@ -17,7 +17,7 @@ import (
 )
 
 func main() {
-	//storeBlockFrequencies()
+	storeBlockFrequencies()
 	scanPlayerData()
 }
 
@@ -98,12 +98,11 @@ func scanChunksSections(path string, db *storage.DB) {
 		}
 	}()
 
-	r0, err := region.Open(path)
-	if err != nil {
-		panic(err)
-	}
-
+	r0 := must(region.Open(path))
 	defer r0.Close()
+
+	chestEntity := block.ChestEntity{}
+	chestID := block.EntityTypes[chestEntity.ID()]
 
 	for i := 0; i < 32; i++ {
 		for j := 0; j < 32; j++ {
@@ -120,7 +119,13 @@ func scanChunksSections(path string, db *storage.DB) {
 
 			for i := 0; i < len(lc.BlockEntity); i++ {
 				be := lc.BlockEntity[i]
-				fmt.Printf("%s\n", be.Data.String())
+				if chestID == be.Type {
+					beTagData := blockEntityTag{}
+					be.Data.Unmarshal(&beTagData)
+					if len(beTagData.Items) > 0 {
+						fmt.Printf("player placed chest items: %+v\n", beTagData.Items)
+					}
+				}
 			}
 
 			count := len(lc.Sections)
