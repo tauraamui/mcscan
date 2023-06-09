@@ -59,6 +59,21 @@ func scanPlayerData() {
 
 	data := must(save.ReadPlayerData(gReader))
 
+	fmt.Printf("%s's inventory contents:\n", uuid)
+	for _, i := range data.Inventory {
+		fmt.Printf("    %s\n", i.ID)
+		if len(i.Tag) > 0 {
+			if beTagData, ok := i.Tag["BlockEntityTag"]; ok {
+				beTag := blockEntityTag{}
+				beTag.unmarshal(beTagData)
+				fmt.Printf("    contains:\n")
+				for _, item := range beTag.Items {
+					fmt.Printf("        %+v\n", item)
+				}
+			}
+		}
+	}
+
 	fmt.Printf("%s's ender chest contents:\n", uuid)
 	for _, i := range data.EnderItems {
 		fmt.Printf("    %s\n", i.ID)
