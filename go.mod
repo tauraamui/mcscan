@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/Tnze/go-mc v1.19.4-pre1
 	github.com/dgraph-io/badger/v3 v3.2103.5
+	github.com/hack-pad/hackpadfs v0.2.1
 )
 
 require (

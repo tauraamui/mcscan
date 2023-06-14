@@ -4,8 +4,9 @@ import (
 	"compress/gzip"
 	"encoding/binary"
 	"encoding/json"
+	"errors"
 	"fmt"
-	"os"
+	stdos "os"
 	"path/filepath"
 
 	"github.com/Tnze/go-mc/level"
@@ -13,12 +14,43 @@ import (
 	"github.com/Tnze/go-mc/save"
 	"github.com/Tnze/go-mc/save/region"
 	"github.com/dgraph-io/badger/v3"
+	"github.com/hack-pad/hackpadfs/os"
 	"github.com/tauraamui/mcscan/storage"
+	"github.com/tauraamui/mcscan/vfsglob"
 )
 
 func main() {
-	storeBlockFrequencies()
+	if err := storeBlockFrquenciesWithVFS(); err != nil {
+		panic(err)
+	}
+	// storeBlockFrequencies()
 	scanPlayerData()
+}
+
+func storeBlockFrquenciesWithVFS() error {
+	fs := os.NewFS()
+
+	workingDirectory, _ := stdos.Getwd()                  // Get current working directory
+	workingDirectory, _ = fs.FromOSPath(workingDirectory) // Convert to an FS path
+	workingDirFS, _ := fs.Sub(workingDirectory)           // Run all file system operations rooted at the current working directory
+
+	ofs, ok := workingDirFS.(*os.FS)
+	if !ok {
+		return errors.New("sub FS not an OS instance FS")
+	}
+
+	rootpath := filepath.Join("testdata", "region", "*.mca")
+
+	found, err := vfsglob.Glob(ofs, rootpath)
+	if err != nil {
+		return err
+	}
+
+	for _, f := range found {
+		fmt.Printf("region file: %s\n", f)
+	}
+
+	return nil
 }
 
 func storeBlockFrequencies() {
@@ -52,7 +84,7 @@ func (b *blockEntityTag) unmarshal(d any) error {
 
 func scanPlayerData() {
 	uuid := "480c70ff-1bf6-44e3-8e42-f365f2d4fbef"
-	playerDataFD := must(os.Open(filepath.Join("testdata", "playerdata", uuid+".dat")))
+	playerDataFD := must(stdos.Open(filepath.Join("testdata", "playerdata", uuid+".dat")))
 	defer playerDataFD.Close()
 
 	gReader := must(gzip.NewReader(playerDataFD))
@@ -212,8 +244,8 @@ func scanChunksBlockEntities(path string) {
 
 func must[T any](v T, err error) T {
 	if err != nil {
-		_, _ = fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		_, _ = fmt.Fprintln(stdos.Stderr, err)
+		stdos.Exit(1)
 	}
 	return v
 }
