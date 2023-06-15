@@ -26,11 +26,26 @@ type fsResolver func() (*os.FS, error)
 type dbResolver func() (storage.DB, error)
 
 func main() {
-	if err := storeBlockFrquenciesWithVFS(resolveFS, resolveDB); err != nil {
-		panic(err)
+	//if err := storeBlockFrquenciesWithVFS(resolveFS, resolveDB); err != nil {
+	//panic(err)
+	//}
+
+	rch := make(chan regionBlocks)
+	go func() {
+		if err := resolveRegionCounts(resolveFS, rch); err != nil {
+			panic(err)
+		}
+	}()
+
+	for r := range rch {
+		// fmt.Printf("%s %fMb\n", r.name, r.size)
+		for k, v := range r.counts {
+			fmt.Printf("%s, %s %d\n", r.name, k, v)
+		}
 	}
+
 	// storeBlockFrequencies()
-	//scanPlayerData()
+	// scanPlayerData()
 }
 
 func resolveDB() (storage.DB, error) {
@@ -66,6 +81,79 @@ func (s *readerWriterSeeker) Write(p []byte) (n int, err error) {
 
 func (s *readerWriterSeeker) Seek(offset int64, whence int) (int64, error) {
 	return hackpadfs.SeekFile(s.fd, offset, whence)
+}
+
+type regionBlocks struct {
+	size   float64
+	name   string
+	counts map[string]uint64
+}
+
+func resolveRegionCounts(fsr fsResolver, c chan<- regionBlocks) error {
+	defer close(c)
+
+	fsys, err := fsr()
+	if err != nil {
+		return err
+	}
+
+	rootpath := filepath.Join("testdata", "region", "*.mca")
+
+	found, err := vfsglob.Glob(fsys, rootpath)
+	if err != nil {
+		return err
+	}
+
+	wwg := sync.WaitGroup{}
+	wwg.Add(len(found))
+	for _, f := range found {
+		go func(wwg *sync.WaitGroup, f string, c chan<- regionBlocks) {
+			defer wwg.Done()
+			fd := must(fsys.Open(f))
+			fi := must(fd.Stat())
+
+			rregion := must(region.Load(&readerWriterSeeker{fd: fd}))
+			defer rregion.Close()
+
+			totalCounts := map[string]uint64{}
+			blocks := make(chan scan.Block)
+
+			wg := sync.WaitGroup{}
+			wg.Add(2)
+
+			go func(wg *sync.WaitGroup) {
+				defer wg.Done()
+
+				for b := range blocks {
+					blockCountKey := b.ID
+
+					count, ok := totalCounts[blockCountKey]
+					if !ok {
+						totalCounts[blockCountKey] = 1
+					}
+
+					totalCounts[blockCountKey] = count + 1
+				}
+			}(&wg)
+
+			go func(wg *sync.WaitGroup) {
+				defer wg.Done()
+				scan.Chunks(rregion, blocks)
+			}(&wg)
+
+			wg.Wait()
+
+			c <- regionBlocks{
+				size:   float64(fi.Size()) / 1024 / 1024,
+				name:   f,
+				counts: totalCounts,
+			}
+		}(&wwg, f, c)
+	}
+
+	wwg.Wait()
+
+	return nil
 }
 
 func storeBlockFrquenciesWithVFS(fsr fsResolver, dbr dbResolver) error {
