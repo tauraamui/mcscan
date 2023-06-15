@@ -16,6 +16,7 @@ import (
 	"github.com/dgraph-io/badger/v3"
 	"github.com/hack-pad/hackpadfs"
 	"github.com/hack-pad/hackpadfs/os"
+	"github.com/tauraamui/mcscan/internal/scan"
 	"github.com/tauraamui/mcscan/storage"
 	"github.com/tauraamui/mcscan/vfsglob"
 )
@@ -89,34 +90,7 @@ func storeBlockFrquenciesWithVFS(fsr fsResolver, dbr dbResolver) error {
 
 		defer rregion.Close()
 
-		chestEntity := block.ChestEntity{}
-		chestID := block.EntityTypes[chestEntity.ID()]
-
-		for i := 0; i < 32; i++ {
-			for j := 0; j < 32; j++ {
-				if !rregion.ExistSector(i, j) {
-					continue
-				}
-
-				data := must(rregion.ReadSector(i, j))
-
-				var sc save.Chunk
-				sc.Load(data)
-
-				lc := must(level.ChunkFromSave(&sc))
-
-				for i := 0; i < len(lc.BlockEntity); i++ {
-					be := lc.BlockEntity[i]
-					if chestID == be.Type {
-						beTagData := blockEntityTag{}
-						be.Data.Unmarshal(&beTagData)
-						if len(beTagData.Items) > 0 {
-							fmt.Printf("player placed chest items: %+v\n", beTagData.Items)
-						}
-					}
-				}
-			}
-		}
+		scan.Chunks(rregion)
 	}
 
 	return nil
