@@ -16,9 +16,13 @@ type Region interface {
 	ExistSector(x, z int) bool
 }
 
-func Chunks(r Region) {
+type FrequenciesByID map[string]uint64
+
+func Chunks(r Region) FrequenciesByID {
 	chestEntity := block.ChestEntity{}
 	chestID := block.EntityTypes[chestEntity.ID()]
+
+	counts := FrequenciesByID{}
 
 	for i := 0; i < 32; i++ {
 		for j := 0; j < 32; j++ {
@@ -43,8 +47,40 @@ func Chunks(r Region) {
 					}
 				}
 			}
+
+			count := len(lc.Sections)
+
+			if count == 0 {
+				continue
+			}
+
+			for i := 0; i < count; i++ {
+				sec := lc.Sections[i]
+				blockCount := int(sec.BlockCount)
+				if blockCount == 0 {
+					continue
+				}
+
+				for j := 0; j < blockCount; j++ {
+					b := block.StateList[sec.GetBlock(j)]
+
+					if block.IsAirBlock(b) {
+						continue
+					}
+
+					blockCountKey := fmt.Sprintf("%s:%s", b.ID(), "frequency")
+
+					count, ok := counts[blockCountKey]
+					if !ok {
+						counts[blockCountKey] = 1
+					}
+
+					counts[blockCountKey] = count + 1
+				}
+			}
 		}
 	}
+	return counts
 }
 
 type blockEntityTag struct {

@@ -90,7 +90,10 @@ func storeBlockFrquenciesWithVFS(fsr fsResolver, dbr dbResolver) error {
 
 		defer rregion.Close()
 
-		scan.Chunks(rregion)
+		counts := scan.Chunks(rregion)
+		for k, v := range counts {
+			fmt.Printf("ID: %s, FREQ: %d\n", k, v)
+		}
 	}
 
 	return nil
