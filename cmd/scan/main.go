@@ -19,7 +19,7 @@ import (
 	"github.com/hack-pad/hackpadfs/os"
 	"github.com/tauraamui/mcscan/internal/scan"
 	"github.com/tauraamui/mcscan/storage"
-	"github.com/tauraamui/mcscan/vfsglob"
+	"github.com/tauraamui/mcscan/vfs"
 )
 
 type fsResolver func() (*os.FS, error)
@@ -106,7 +106,7 @@ func resolveRegionCounts(fsr fsResolver, c chan<- regionBlocks) error {
 
 	rootpath := filepath.Join("testdata", "region", "*.mca")
 
-	found, err := vfsglob.Glob(fsys, rootpath)
+	found, err := vfs.Glob(fsys, rootpath)
 	if err != nil {
 		return err
 	}
@@ -171,7 +171,7 @@ func storeBlockFrquenciesWithVFS(fsr fsResolver, dbr dbResolver) error {
 
 	rootpath := filepath.Join("testdata", "region", "*.mca")
 
-	found, err := vfsglob.Glob(fsys, rootpath)
+	found, err := vfs.Glob(fsys, rootpath)
 	if err != nil {
 		return err
 	}
