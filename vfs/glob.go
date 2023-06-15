@@ -1,4 +1,4 @@
-package vfsglob
+package vfs
 
 import (
 	"path"
