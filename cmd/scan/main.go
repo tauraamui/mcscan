@@ -81,51 +81,55 @@ func storeBlockFrquenciesWithVFS(fsr fsResolver, dbr dbResolver) error {
 		return err
 	}
 
+	wwg := sync.WaitGroup{}
+	wwg.Add(len(found))
 	for _, f := range found {
-		fd := must(fsys.Open(f))
-		fi := must(fd.Stat())
+		go func(wwg *sync.WaitGroup, f string) {
+			defer wwg.Done()
+			fd := must(fsys.Open(f))
+			fi := must(fd.Stat())
 
-		fmt.Printf("region file: %s %fMb\n", f, float64(fi.Size())/1024/1024) // convert bytes to Mb for printout
-		rregion, err := region.Load(&readerWriterSeeker{fd: fd})
-		if err != nil {
-			return err
-		}
+			outputHeader := fmt.Sprintf("region file: %s %fMb", f, float64(fi.Size())/1024/1024) // convert bytes to Mb for printout
+			rregion := must(region.Load(&readerWriterSeeker{fd: fd}))
 
-		defer rregion.Close()
+			defer rregion.Close()
 
-		totalCounts := map[string]uint64{}
+			totalCounts := map[string]uint64{}
 
-		blocks := make(chan scan.Block)
+			blocks := make(chan scan.Block)
 
-		wg := sync.WaitGroup{}
-		wg.Add(2)
+			wg := sync.WaitGroup{}
+			wg.Add(2)
 
-		go func(wg *sync.WaitGroup) {
-			defer wg.Done()
+			go func(wg *sync.WaitGroup) {
+				defer wg.Done()
 
-			for b := range blocks {
-				blockCountKey := b.ID
+				for b := range blocks {
+					blockCountKey := b.ID
 
-				count, ok := totalCounts[blockCountKey]
-				if !ok {
-					totalCounts[blockCountKey] = 1
+					count, ok := totalCounts[blockCountKey]
+					if !ok {
+						totalCounts[blockCountKey] = 1
+					}
+
+					totalCounts[blockCountKey] = count + 1
 				}
+			}(&wg)
 
-				totalCounts[blockCountKey] = count + 1
+			go func(wg *sync.WaitGroup) {
+				defer wg.Done()
+				scan.Chunks(rregion, blocks)
+			}(&wg)
+
+			wg.Wait()
+
+			for k, v := range totalCounts {
+				fmt.Printf("%s, KEY: %s, VALUE: %d\n", outputHeader, k, v)
 			}
-		}(&wg)
-
-		go func(wg *sync.WaitGroup) {
-			defer wg.Done()
-			scan.Chunks(rregion, blocks)
-		}(&wg)
-
-		wg.Wait()
-
-		for k, v := range totalCounts {
-			fmt.Printf("KEY: %s, VALUE: %d\n", k, v)
-		}
+		}(&wwg, f)
 	}
+
+	wwg.Wait()
 
 	return nil
 }
