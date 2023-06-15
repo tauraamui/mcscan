@@ -8,6 +8,7 @@ import (
 	"fmt"
 	stdos "os"
 	"path/filepath"
+	"sync"
 
 	"github.com/Tnze/go-mc/level"
 	"github.com/Tnze/go-mc/level/block"
@@ -90,9 +91,37 @@ func storeBlockFrquenciesWithVFS(fsr fsResolver, dbr dbResolver) error {
 
 		defer rregion.Close()
 
-		counts := scan.Chunks(rregion)
-		for k, v := range counts {
-			fmt.Printf("ID: %s, FREQ: %d\n", k, v)
+		totalCounts := map[string]uint64{}
+
+		blocks := make(chan scan.Block)
+
+		wg := sync.WaitGroup{}
+		wg.Add(2)
+
+		go func(wg *sync.WaitGroup) {
+			defer wg.Done()
+
+			for b := range blocks {
+				blockCountKey := b.ID
+
+				count, ok := totalCounts[blockCountKey]
+				if !ok {
+					totalCounts[blockCountKey] = 1
+				}
+
+				totalCounts[blockCountKey] = count + 1
+			}
+		}(&wg)
+
+		go func(wg *sync.WaitGroup) {
+			defer wg.Done()
+			scan.Chunks(rregion, blocks)
+		}(&wg)
+
+		wg.Wait()
+
+		for k, v := range totalCounts {
+			fmt.Printf("KEY: %s, VALUE: %d\n", k, v)
 		}
 	}
 
