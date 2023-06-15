@@ -82,8 +82,10 @@ func storeBlockFrquenciesWithVFS(fsr fsResolver, dbr dbResolver) error {
 	}
 
 	for _, f := range found {
-		fmt.Printf("region file: %s\n", f)
 		fd := must(fsys.Open(f))
+		fi := must(fd.Stat())
+
+		fmt.Printf("region file: %s %fMb\n", f, float64(fi.Size())/1024/1024) // convert bytes to Mb for printout
 		rregion, err := region.Load(&readerWriterSeeker{fd: fd})
 		if err != nil {
 			return err
