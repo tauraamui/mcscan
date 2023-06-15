@@ -26,10 +26,6 @@ type fsResolver func() (*os.FS, error)
 type dbResolver func() (storage.DB, error)
 
 func main() {
-	//if err := storeBlockFrquenciesWithVFS(resolveFS, resolveDB); err != nil {
-	//panic(err)
-	//}
-
 	rch := make(chan regionBlocks)
 	go func() {
 		if err := resolveRegionCounts(resolveFS, rch); err != nil {
@@ -37,11 +33,22 @@ func main() {
 		}
 	}()
 
+	worldTotalCount := map[string]uint64{}
+
 	for r := range rch {
-		// fmt.Printf("%s %fMb\n", r.name, r.size)
 		for k, v := range r.counts {
-			fmt.Printf("%s, %s %d\n", r.name, k, v)
+
+			count, ok := worldTotalCount[k]
+			if !ok {
+				worldTotalCount[k] = v
+			}
+
+			worldTotalCount[k] = count + v
 		}
+	}
+
+	for k, v := range worldTotalCount {
+		fmt.Printf("%s %d\n", k, v)
 	}
 
 	// storeBlockFrequencies()

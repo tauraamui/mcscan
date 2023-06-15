@@ -1,338 +1,111 @@
 go run cmd/scan/main.go
-testdata/region/r.-1.-1.mca, minecraft:budding_amethyst 384
-testdata/region/r.-1.-1.mca, minecraft:magma_block 174
-testdata/region/r.-1.-1.mca, minecraft:sugar_cane 2
-testdata/region/r.-1.-1.mca, minecraft:glow_lichen 624
-testdata/region/r.-1.-1.mca, minecraft:infested_stone 2854
-testdata/region/r.-1.-1.mca, minecraft:deepslate_emerald_ore 13
-testdata/region/r.-1.-1.mca, minecraft:chain 16
-testdata/region/r.-1.-1.mca, minecraft:medium_amethyst_bud 19
-testdata/region/r.-1.-1.mca, minecraft:amethyst_cluster 12
-testdata/region/r.-1.-1.mca, minecraft:cornflower 278
-testdata/region/r.-1.-1.mca, minecraft:deepslate_iron_ore 5426
-testdata/region/r.-1.-1.mca, minecraft:grass_block 40610
-testdata/region/r.-1.-1.mca, minecraft:infested_deepslate 3781
-testdata/region/r.-1.-1.mca, minecraft:pointed_dripstone 1159
-testdata/region/r.-1.-1.mca, minecraft:oak_log 1021
-testdata/region/r.-1.-1.mca, minecraft:calcite 5265
-testdata/region/r.-1.-1.mca, minecraft:cobblestone 621
-testdata/region/r.-1.-1.mca, minecraft:large_amethyst_bud 14
-testdata/region/r.-1.-1.mca, minecraft:stone 4065691
-testdata/region/r.-1.-1.mca, minecraft:seagrass 599
-testdata/region/r.-1.-1.mca, minecraft:rail 410
-testdata/region/r.-1.-1.mca, minecraft:raw_copper_block 22
-testdata/region/r.-1.-1.mca, minecraft:spawner 8
-testdata/region/r.-1.-1.mca, minecraft:oak_leaves 6051
-testdata/region/r.-1.-1.mca, minecraft:bubble_column 192
-testdata/region/r.-1.-1.mca, minecraft:chest 10
-testdata/region/r.-1.-1.mca, minecraft:water 155859
-testdata/region/r.-1.-1.mca, minecraft:redstone_ore 616
-testdata/region/r.-1.-1.mca, minecraft:oak_fence 1176
-testdata/region/r.-1.-1.mca, minecraft:cobweb 209
-testdata/region/r.-1.-1.mca, minecraft:clay 440
-testdata/region/r.-1.-1.mca, minecraft:amethyst_block 4331
-testdata/region/r.-1.-1.mca, minecraft:deepslate 3828232
-testdata/region/r.-1.-1.mca, minecraft:lava 8113
-testdata/region/r.-1.-1.mca, minecraft:diorite 258781
-testdata/region/r.-1.-1.mca, minecraft:tall_seagrass 692
-testdata/region/r.-1.-1.mca, minecraft:diamond_ore 70
-testdata/region/r.-1.-1.mca, minecraft:deepslate_gold_ore 5571
-testdata/region/r.-1.-1.mca, minecraft:granite 242010
-testdata/region/r.-1.-1.mca, minecraft:mossy_cobblestone 287
-testdata/region/r.-1.-1.mca, minecraft:sculk 1800
-testdata/region/r.-1.-1.mca, minecraft:bee_nest 1
-testdata/region/r.-1.-1.mca, minecraft:fire 1
-testdata/region/r.-1.-1.mca, minecraft:tuff 277222
-testdata/region/r.-1.-1.mca, minecraft:iron_ore 13533
-testdata/region/r.-1.-1.mca, minecraft:grass 2200
-testdata/region/r.-1.-1.mca, minecraft:sculk_catalyst 4
-testdata/region/r.-1.-1.mca, minecraft:azure_bluet 1
-testdata/region/r.-1.-1.mca, minecraft:copper_ore 35865
-testdata/region/r.-1.-1.mca, minecraft:smooth_basalt 6580
-testdata/region/r.-1.-1.mca, minecraft:birch_log 179
-testdata/region/r.-1.-1.mca, minecraft:oxeye_daisy 3
-testdata/region/r.-1.-1.mca, minecraft:lapis_ore 2648
-testdata/region/r.-1.-1.mca, minecraft:sand 9178
-testdata/region/r.-1.-1.mca, minecraft:rose_bush 13
-testdata/region/r.-1.-1.mca, minecraft:wall_torch 16
-testdata/region/r.-1.-1.mca, minecraft:coal_ore 38423
-testdata/region/r.-1.-1.mca, minecraft:dandelion 213
-testdata/region/r.-1.-1.mca, minecraft:deepslate_redstone_ore 8213
-testdata/region/r.-1.-1.mca, minecraft:dirt 241071
-testdata/region/r.-1.-1.mca, minecraft:oak_planks 1851
-testdata/region/r.-1.-1.mca, minecraft:bedrock 220571
-testdata/region/r.-1.-1.mca, minecraft:sculk_sensor 10
-testdata/region/r.-1.-1.mca, minecraft:poppy 29
-testdata/region/r.-1.-1.mca, minecraft:gravel 129363
-testdata/region/r.-1.-1.mca, minecraft:andesite 265426
-testdata/region/r.-1.-1.mca, minecraft:emerald_ore 455
-testdata/region/r.-1.-1.mca, minecraft:birch_leaves 448
-testdata/region/r.-1.-1.mca, minecraft:sculk_vein 349
-testdata/region/r.-1.-1.mca, minecraft:tall_grass 163
-testdata/region/r.-1.-1.mca, minecraft:gold_ore 835
-testdata/region/r.-1.-1.mca, minecraft:deepslate_copper_ore 1831
-testdata/region/r.-1.-1.mca, minecraft:dripstone_block 6006
-testdata/region/r.-1.-1.mca, minecraft:deepslate_coal_ore 135
-testdata/region/r.-1.-1.mca, minecraft:lily_of_the_valley 55
-testdata/region/r.-1.-1.mca, minecraft:obsidian 3
-testdata/region/r.-1.-1.mca, minecraft:deepslate_diamond_ore 3739
-testdata/region/r.-1.-1.mca, minecraft:deepslate_lapis_ore 3441
-testdata/region/r.-1.-1.mca, minecraft:small_amethyst_bud 20
-testdata/region/r.-1.0.mca, minecraft:dandelion 351
-testdata/region/r.-1.0.mca, minecraft:deepslate_emerald_ore 18
-testdata/region/r.-1.0.mca, minecraft:birch_log 161
-testdata/region/r.-1.0.mca, minecraft:budding_amethyst 430
-testdata/region/r.-1.0.mca, minecraft:deepslate_coal_ore 258
-testdata/region/r.-1.0.mca, minecraft:raw_copper_block 33
-testdata/region/r.-1.0.mca, minecraft:pumpkin 18
-testdata/region/r.-1.0.mca, minecraft:tall_seagrass 946
-testdata/region/r.-1.0.mca, minecraft:spawner 10
-testdata/region/r.-1.0.mca, minecraft:small_amethyst_bud 20
-testdata/region/r.-1.0.mca, minecraft:rail 207
-testdata/region/r.-1.0.mca, minecraft:mossy_cobblestone 320
-testdata/region/r.-1.0.mca, minecraft:poppy 12
-testdata/region/r.-1.0.mca, minecraft:bedrock 248106
-testdata/region/r.-1.0.mca, minecraft:granite 275970
-testdata/region/r.-1.0.mca, minecraft:diamond_ore 130
-testdata/region/r.-1.0.mca, minecraft:oak_log 598
-testdata/region/r.-1.0.mca, minecraft:sculk_catalyst 5
-testdata/region/r.-1.0.mca, minecraft:sculk_shrieker 4
-testdata/region/r.-1.0.mca, minecraft:obsidian 21
-testdata/region/r.-1.0.mca, minecraft:sugar_cane 3
-testdata/region/r.-1.0.mca, minecraft:lapis_ore 2962
-testdata/region/r.-1.0.mca, minecraft:oak_fence 530
-testdata/region/r.-1.0.mca, minecraft:infested_stone 1743
-testdata/region/r.-1.0.mca, minecraft:grass_block 40679
-testdata/region/r.-1.0.mca, minecraft:infested_deepslate 2619
-testdata/region/r.-1.0.mca, minecraft:medium_amethyst_bud 24
-testdata/region/r.-1.0.mca, minecraft:deepslate_iron_ore 7772
-testdata/region/r.-1.0.mca, minecraft:deepslate_copper_ore 3152
-testdata/region/r.-1.0.mca, minecraft:andesite 304858
-testdata/region/r.-1.0.mca, minecraft:dripstone_block 23227
-testdata/region/r.-1.0.mca, minecraft:coal_ore 41202
-testdata/region/r.-1.0.mca, minecraft:iron_ore 14995
-testdata/region/r.-1.0.mca, minecraft:gold_ore 1020
-testdata/region/r.-1.0.mca, minecraft:oak_leaves 4618
-testdata/region/r.-1.0.mca, minecraft:deepslate 4194549
-testdata/region/r.-1.0.mca, minecraft:pointed_dripstone 4963
-testdata/region/r.-1.0.mca, minecraft:oxeye_daisy 9
-testdata/region/r.-1.0.mca, minecraft:sculk 2424
-testdata/region/r.-1.0.mca, minecraft:sculk_vein 534
-testdata/region/r.-1.0.mca, minecraft:amethyst_cluster 19
-testdata/region/r.-1.0.mca, minecraft:large_amethyst_bud 19
-testdata/region/r.-1.0.mca, minecraft:tuff 300430
-testdata/region/r.-1.0.mca, minecraft:deepslate_lapis_ore 3671
-testdata/region/r.-1.0.mca, minecraft:copper_ore 50577
-testdata/region/r.-1.0.mca, minecraft:azure_bluet 87
-testdata/region/r.-1.0.mca, minecraft:redstone_ore 738
-testdata/region/r.-1.0.mca, minecraft:oak_planks 753
-testdata/region/r.-1.0.mca, minecraft:birch_leaves 725
-testdata/region/r.-1.0.mca, minecraft:calcite 5973
-testdata/region/r.-1.0.mca, minecraft:clay 364
-testdata/region/r.-1.0.mca, minecraft:raw_iron_block 40
-testdata/region/r.-1.0.mca, minecraft:magma_block 213
-testdata/region/r.-1.0.mca, minecraft:bubble_column 491
-testdata/region/r.-1.0.mca, minecraft:diorite 282226
-testdata/region/r.-1.0.mca, minecraft:dirt 262590
-testdata/region/r.-1.0.mca, minecraft:smooth_basalt 7192
-testdata/region/r.-1.0.mca, minecraft:chest 13
-testdata/region/r.-1.0.mca, minecraft:cobweb 187
-testdata/region/r.-1.0.mca, minecraft:grass 2946
-testdata/region/r.-1.0.mca, minecraft:cobblestone 796
-testdata/region/r.-1.0.mca, minecraft:emerald_ore 266
-testdata/region/r.-1.0.mca, minecraft:deepslate_gold_ore 5756
-testdata/region/r.-1.0.mca, minecraft:sand 6578
-testdata/region/r.-1.0.mca, minecraft:lava 14529
-testdata/region/r.-1.0.mca, minecraft:deepslate_redstone_ore 9174
-testdata/region/r.-1.0.mca, minecraft:glow_lichen 756
-testdata/region/r.-1.0.mca, minecraft:seagrass 671
-testdata/region/r.-1.0.mca, minecraft:cornflower 35
-testdata/region/r.-1.0.mca, minecraft:tall_grass 314
-testdata/region/r.-1.0.mca, minecraft:deepslate_diamond_ore 4081
-testdata/region/r.-1.0.mca, minecraft:water 286865
-testdata/region/r.-1.0.mca, minecraft:amethyst_block 4770
-testdata/region/r.-1.0.mca, minecraft:wall_torch 12
-testdata/region/r.-1.0.mca, minecraft:gravel 150620
-testdata/region/r.-1.0.mca, minecraft:stone 4594878
-testdata/region/r.-1.0.mca, minecraft:sculk_sensor 23
-testdata/region/r.0.-1.mca, minecraft:diorite 402404
-testdata/region/r.0.-1.mca, minecraft:coal_ore 32621
-testdata/region/r.0.-1.mca, minecraft:diamond_ore 162
-testdata/region/r.0.-1.mca, minecraft:small_amethyst_bud 13
-testdata/region/r.0.-1.mca, minecraft:oak_planks 1233
-testdata/region/r.0.-1.mca, minecraft:copper_ore 29125
-testdata/region/r.0.-1.mca, minecraft:oak_fence 840
-testdata/region/r.0.-1.mca, minecraft:glow_lichen 1017
-testdata/region/r.0.-1.mca, minecraft:oak_leaves 4192
-testdata/region/r.0.-1.mca, minecraft:deepslate_coal_ore 265
-testdata/region/r.0.-1.mca, minecraft:smooth_basalt 4530
-testdata/region/r.0.-1.mca, minecraft:azure_bluet 7
-testdata/region/r.0.-1.mca, minecraft:wall_torch 12
-testdata/region/r.0.-1.mca, minecraft:infested_stone 15
-testdata/region/r.0.-1.mca, minecraft:deepslate_diamond_ore 5905
-testdata/region/r.0.-1.mca, minecraft:kelp 425
-testdata/region/r.0.-1.mca, minecraft:lava 12336
-testdata/region/r.0.-1.mca, minecraft:birch_log 248
-testdata/region/r.0.-1.mca, minecraft:calcite 3591
-testdata/region/r.0.-1.mca, minecraft:pink_tulip 1
-testdata/region/r.0.-1.mca, minecraft:lily_of_the_valley 6
-testdata/region/r.0.-1.mca, minecraft:dirt 328444
-testdata/region/r.0.-1.mca, minecraft:water 532627
-testdata/region/r.0.-1.mca, minecraft:raw_iron_block 29
-testdata/region/r.0.-1.mca, minecraft:seagrass 2048
-testdata/region/r.0.-1.mca, minecraft:sandstone 25861
-testdata/region/r.0.-1.mca, minecraft:amethyst_cluster 14
-testdata/region/r.0.-1.mca, minecraft:birch_leaves 534
-testdata/region/r.0.-1.mca, minecraft:lapis_ore 4513
-testdata/region/r.0.-1.mca, minecraft:budding_amethyst 230
-testdata/region/r.0.-1.mca, minecraft:clay 954
-testdata/region/r.0.-1.mca, minecraft:cobweb 382
-testdata/region/r.0.-1.mca, minecraft:tuff 446402
-testdata/region/r.0.-1.mca, minecraft:andesite 432935
-testdata/region/r.0.-1.mca, minecraft:magma_block 331
-testdata/region/r.0.-1.mca, minecraft:rail 326
-testdata/region/r.0.-1.mca, minecraft:deepslate_gold_ore 8681
-testdata/region/r.0.-1.mca, minecraft:gravel 194492
-testdata/region/r.0.-1.mca, minecraft:deepslate_redstone_ore 13705
-testdata/region/r.0.-1.mca, minecraft:iron_ore 20382
-testdata/region/r.0.-1.mca, minecraft:raw_copper_block 1
-testdata/region/r.0.-1.mca, minecraft:sunflower 6
-testdata/region/r.0.-1.mca, minecraft:emerald_ore 2
-testdata/region/r.0.-1.mca, minecraft:bedrock 360618
-testdata/region/r.0.-1.mca, minecraft:granite 396759
-testdata/region/r.0.-1.mca, minecraft:mossy_cobblestone 288
-testdata/region/r.0.-1.mca, minecraft:gold_ore 1618
-testdata/region/r.0.-1.mca, minecraft:deepslate_iron_ore 10667
-testdata/region/r.0.-1.mca, minecraft:grass_block 56199
-testdata/region/r.0.-1.mca, minecraft:infested_deepslate 36
-testdata/region/r.0.-1.mca, minecraft:cobblestone 710
-testdata/region/r.0.-1.mca, minecraft:bubble_column 894
-testdata/region/r.0.-1.mca, minecraft:chest 10
-testdata/region/r.0.-1.mca, minecraft:chain 4
-testdata/region/r.0.-1.mca, minecraft:deepslate 6153200
-testdata/region/r.0.-1.mca, minecraft:large_amethyst_bud 15
-testdata/region/r.0.-1.mca, minecraft:amethyst_block 2844
-testdata/region/r.0.-1.mca, minecraft:sand 54805
-testdata/region/r.0.-1.mca, minecraft:fire 2
-testdata/region/r.0.-1.mca, minecraft:peony 38
-testdata/region/r.0.-1.mca, minecraft:deepslate_lapis_ore 5210
-testdata/region/r.0.-1.mca, minecraft:cornflower 4
-testdata/region/r.0.-1.mca, minecraft:redstone_ore 1121
-testdata/region/r.0.-1.mca, minecraft:oak_log 887
-testdata/region/r.0.-1.mca, minecraft:obsidian 110
-testdata/region/r.0.-1.mca, minecraft:tall_seagrass 2269
-testdata/region/r.0.-1.mca, minecraft:dandelion 56
-testdata/region/r.0.-1.mca, minecraft:dirt_path 100
-testdata/region/r.0.-1.mca, minecraft:kelp_plant 1744
-testdata/region/r.0.-1.mca, minecraft:sugar_cane 17
-testdata/region/r.0.-1.mca, minecraft:deepslate_copper_ore 2619
-testdata/region/r.0.-1.mca, minecraft:medium_amethyst_bud 7
-testdata/region/r.0.-1.mca, minecraft:oxeye_daisy 2
-testdata/region/r.0.-1.mca, minecraft:tall_grass 271
-testdata/region/r.0.-1.mca, minecraft:grass 3644
-testdata/region/r.0.-1.mca, minecraft:poppy 18
-testdata/region/r.0.-1.mca, minecraft:spawner 13
-testdata/region/r.0.-1.mca, minecraft:stone 4493223
-testdata/region/r.0.0.mca, minecraft:gold_ore 2397
-testdata/region/r.0.0.mca, minecraft:calcite 8842
-testdata/region/r.0.0.mca, minecraft:budding_amethyst 611
-testdata/region/r.0.0.mca, minecraft:cobblestone 2641
-testdata/region/r.0.0.mca, minecraft:amethyst_cluster 37
-testdata/region/r.0.0.mca, minecraft:birch_log 218
-testdata/region/r.0.0.mca, minecraft:white_tulip 546
-testdata/region/r.0.0.mca, minecraft:stone 9979792
-testdata/region/r.0.0.mca, minecraft:grass 6412
-testdata/region/r.0.0.mca, minecraft:cobweb 685
-testdata/region/r.0.0.mca, minecraft:oak_stairs 8
-testdata/region/r.0.0.mca, minecraft:netherrack 448
-testdata/region/r.0.0.mca, minecraft:copper_ore 97404
-testdata/region/r.0.0.mca, minecraft:smooth_basalt 11021
-testdata/region/r.0.0.mca, minecraft:oxeye_daisy 77
-testdata/region/r.0.0.mca, minecraft:diamond_ore 304
-testdata/region/r.0.0.mca, minecraft:raw_copper_block 59
-testdata/region/r.0.0.mca, minecraft:emerald_ore 412
-testdata/region/r.0.0.mca, minecraft:lilac 150
-testdata/region/r.0.0.mca, minecraft:pointed_dripstone 5193
-testdata/region/r.0.0.mca, minecraft:red_tulip 468
-testdata/region/r.0.0.mca, minecraft:chain 8
-testdata/region/r.0.0.mca, minecraft:orange_tulip 508
-testdata/region/r.0.0.mca, minecraft:potatoes 9
-testdata/region/r.0.0.mca, minecraft:cobblestone_stairs 3
-testdata/region/r.0.0.mca, minecraft:oak_fence_gate 1
-testdata/region/r.0.0.mca, minecraft:deepslate_iron_ore 17285
-testdata/region/r.0.0.mca, minecraft:rail 569
-testdata/region/r.0.0.mca, minecraft:sand 40766
-testdata/region/r.0.0.mca, minecraft:peony 115
-testdata/region/r.0.0.mca, minecraft:sugar_cane 19
-testdata/region/r.0.0.mca, minecraft:bee_nest 7
-testdata/region/r.0.0.mca, minecraft:smoker 1
-testdata/region/r.0.0.mca, minecraft:sandstone 12475
-testdata/region/r.0.0.mca, minecraft:tuff 748445
-testdata/region/r.0.0.mca, minecraft:gravel 353135
-testdata/region/r.0.0.mca, minecraft:dandelion 99
-testdata/region/r.0.0.mca, minecraft:deepslate_coal_ore 437
-testdata/region/r.0.0.mca, minecraft:chest 38
-testdata/region/r.0.0.mca, minecraft:small_amethyst_bud 48
-testdata/region/r.0.0.mca, minecraft:birch_leaves 664
-testdata/region/r.0.0.mca, minecraft:large_amethyst_bud 48
-testdata/region/r.0.0.mca, minecraft:infested_stone 2035
-testdata/region/r.0.0.mca, minecraft:oak_door 4
-testdata/region/r.0.0.mca, minecraft:beetroots 1
-testdata/region/r.0.0.mca, minecraft:obsidian 538
-testdata/region/r.0.0.mca, minecraft:amethyst_block 6611
-testdata/region/r.0.0.mca, minecraft:clay 898
-testdata/region/r.0.0.mca, minecraft:bubble_column 1453
-testdata/region/r.0.0.mca, minecraft:kelp 109
-testdata/region/r.0.0.mca, minecraft:wheat 15
-testdata/region/r.0.0.mca, minecraft:deepslate_gold_ore 14327
-testdata/region/r.0.0.mca, minecraft:dirt 670404
-testdata/region/r.0.0.mca, minecraft:lava 61121
-testdata/region/r.0.0.mca, minecraft:seagrass 1499
-testdata/region/r.0.0.mca, minecraft:lily_of_the_valley 86
-testdata/region/r.0.0.mca, minecraft:lapis_ore 7255
-testdata/region/r.0.0.mca, minecraft:deepslate_lapis_ore 8968
-testdata/region/r.0.0.mca, minecraft:oak_planks 2060
-testdata/region/r.0.0.mca, minecraft:spawner 32
-testdata/region/r.0.0.mca, minecraft:carrots 9
-testdata/region/r.0.0.mca, minecraft:dripstone_block 22630
-testdata/region/r.0.0.mca, minecraft:andesite 749720
-testdata/region/r.0.0.mca, minecraft:tall_seagrass 1753
-testdata/region/r.0.0.mca, minecraft:allium 172
-testdata/region/r.0.0.mca, minecraft:wall_torch 26
-testdata/region/r.0.0.mca, minecraft:deepslate_emerald_ore 18
-testdata/region/r.0.0.mca, minecraft:bell 1
-testdata/region/r.0.0.mca, minecraft:oak_log 1326
-testdata/region/r.0.0.mca, minecraft:bedrock 601349
-testdata/region/r.0.0.mca, minecraft:glow_lichen 2092
-testdata/region/r.0.0.mca, minecraft:granite 694428
-testdata/region/r.0.0.mca, minecraft:oak_fence 1743
-testdata/region/r.0.0.mca, minecraft:medium_amethyst_bud 31
-testdata/region/r.0.0.mca, minecraft:infested_deepslate 5623
-testdata/region/r.0.0.mca, minecraft:mossy_cobblestone 1027
-testdata/region/r.0.0.mca, minecraft:stripped_oak_log 2
-testdata/region/r.0.0.mca, minecraft:smooth_stone_slab 6
-testdata/region/r.0.0.mca, minecraft:deepslate_diamond_ore 9933
-testdata/region/r.0.0.mca, minecraft:coal_ore 95635
-testdata/region/r.0.0.mca, minecraft:cornflower 69
-testdata/region/r.0.0.mca, minecraft:deepslate_copper_ore 5536
-testdata/region/r.0.0.mca, minecraft:redstone_ore 1671
-testdata/region/r.0.0.mca, minecraft:magma_block 769
-testdata/region/r.0.0.mca, minecraft:raw_iron_block 38
-testdata/region/r.0.0.mca, minecraft:deepslate_redstone_ore 22319
-testdata/region/r.0.0.mca, minecraft:iron_ore 36834
-testdata/region/r.0.0.mca, minecraft:grass_block 111178
-testdata/region/r.0.0.mca, minecraft:water 613774
-testdata/region/r.0.0.mca, minecraft:poppy 724
-testdata/region/r.0.0.mca, minecraft:tall_grass 496
-testdata/region/r.0.0.mca, minecraft:rose_bush 117
-testdata/region/r.0.0.mca, minecraft:diorite 709476
-testdata/region/r.0.0.mca, minecraft:azure_bluet 390
-testdata/region/r.0.0.mca, minecraft:stone_brick_slab 1
-testdata/region/r.0.0.mca, minecraft:composter 1
-testdata/region/r.0.0.mca, minecraft:deepslate 9710532
-testdata/region/r.0.0.mca, minecraft:oak_leaves 6900
-testdata/region/r.0.0.mca, minecraft:pink_tulip 322
-testdata/region/r.0.0.mca, minecraft:kelp_plant 340
-testdata/region/r.0.0.mca, minecraft:sunflower 24
-testdata/region/r.0.0.mca, minecraft:dirt_path 864
-testdata/region/r.0.0.mca, minecraft:farmland 29
+minecraft:calcite 23671
+minecraft:glow_lichen 4489
+minecraft:dripstone_block 51863
+minecraft:netherrack 448
+minecraft:lily_of_the_valley 147
+minecraft:deepslate_diamond_ore 23658
+minecraft:oxeye_daisy 91
+minecraft:rose_bush 130
+minecraft:oak_stairs 8
+minecraft:small_amethyst_bud 101
+minecraft:seagrass 4817
+minecraft:fire 3
+minecraft:deepslate_iron_ore 41150
+minecraft:bee_nest 8
+minecraft:amethyst_cluster 82
+minecraft:deepslate_redstone_ore 53411
+minecraft:peony 153
+minecraft:orange_tulip 508
+minecraft:birch_leaves 2371
+minecraft:redstone_ore 4146
+minecraft:magma_block 1487
+minecraft:sunflower 30
+minecraft:medium_amethyst_bud 81
+minecraft:copper_ore 212971
+minecraft:tall_seagrass 5660
+minecraft:beetroots 1
+minecraft:poppy 783
+minecraft:raw_iron_block 107
+minecraft:deepslate_gold_ore 34335
+minecraft:smooth_basalt 29323
+minecraft:red_tulip 468
+minecraft:carrots 9
+minecraft:diamond_ore 666
+minecraft:deepslate 23886513
+minecraft:deepslate_lapis_ore 21290
+minecraft:spawner 63
+minecraft:raw_copper_block 115
+minecraft:wall_torch 66
+minecraft:clay 2656
+minecraft:sculk_shrieker 4
+minecraft:allium 172
+minecraft:white_tulip 546
+minecraft:bedrock 1430644
+minecraft:cobweb 1463
+minecraft:tall_grass 1244
+minecraft:dirt 1502509
+minecraft:dirt_path 964
+minecraft:azure_bluet 485
+minecraft:obsidian 672
+minecraft:stripped_oak_log 2
+minecraft:infested_stone 6647
+minecraft:budding_amethyst 1655
+minecraft:sand 111327
+minecraft:chain 28
+minecraft:gold_ore 5870
+minecraft:infested_deepslate 12059
+minecraft:sculk_catalyst 9
+minecraft:large_amethyst_bud 96
+minecraft:cobblestone_stairs 3
+minecraft:oak_leaves 21761
+minecraft:smoker 1
+minecraft:wheat 15
+minecraft:emerald_ore 1135
+minecraft:deepslate_emerald_ore 49
+minecraft:grass_block 248666
+minecraft:water 1589125
+minecraft:kelp_plant 2084
+minecraft:andesite 1752939
+minecraft:tuff 1772499
+minecraft:oak_fence 4289
+minecraft:lilac 150
+minecraft:cornflower 386
+minecraft:stone 23133584
+minecraft:lava 96099
+minecraft:sandstone 38336
+minecraft:cobblestone 4768
+minecraft:grass 15202
+minecraft:pumpkin 18
+minecraft:kelp 534
+minecraft:stone_brick_slab 1
+minecraft:oak_planks 5897
+minecraft:pointed_dripstone 11315
+minecraft:oak_log 3832
+minecraft:bubble_column 3030
+minecraft:gravel 827610
+minecraft:bell 1
+minecraft:deepslate_copper_ore 13138
+minecraft:iron_ore 85744
+minecraft:granite 1609167
+minecraft:oak_door 4
+minecraft:composter 1
+minecraft:sculk_vein 883
+minecraft:mossy_cobblestone 1922
+minecraft:amethyst_block 18556
+minecraft:sculk_sensor 33
+minecraft:lapis_ore 17378
+minecraft:potatoes 9
+minecraft:farmland 29
+minecraft:deepslate_coal_ore 1095
+minecraft:rail 1512
+minecraft:pink_tulip 323
+minecraft:oak_fence_gate 1
+minecraft:smooth_stone_slab 6
+minecraft:coal_ore 207881
+minecraft:birch_log 806
+minecraft:chest 71
+minecraft:sugar_cane 41
+minecraft:sculk 4224
+minecraft:diorite 1652887
+minecraft:dandelion 719
