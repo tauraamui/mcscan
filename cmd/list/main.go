@@ -14,7 +14,8 @@ import (
 // ~/Library/Application Support/minecraft
 
 func main() {
-	fsys := must(resolveFS(must(stdos.UserConfigDir())))
+	configDirPath := must(stdos.UserConfigDir())
+	fsys := must(resolveFS(configDirPath))
 
 	mcSavesPath := filepath.Join("minecraft", "saves")
 	fi := must(fsys.Stat(mcSavesPath))
@@ -24,7 +25,7 @@ func main() {
 		for _, wdir := range worldDirs {
 			name := wdir.Name()
 			if !vfs.IsHidden(name) {
-				fmt.Println(name)
+				fmt.Printf(filepath.Join(configDirPath, mcSavesPath, name) + "\n")
 			}
 		}
 	}
