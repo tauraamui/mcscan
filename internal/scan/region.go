@@ -68,7 +68,7 @@ func Chunks(r Region) FrequenciesByID {
 						continue
 					}
 
-					blockCountKey := fmt.Sprintf("%s:%s", b.ID(), "frequency")
+					blockCountKey := b.ID()
 
 					count, ok := counts[blockCountKey]
 					if !ok {
