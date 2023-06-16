@@ -5,20 +5,22 @@ import (
 	"fmt"
 	stdos "os"
 	"path/filepath"
+	"strings"
 
 	"github.com/hack-pad/hackpadfs/os"
-	"github.com/tauraamui/mcscan/internal/scan"
 	"github.com/tauraamui/mcscan/vfs"
 )
 
 // ~/Library/Application Support/minecraft
 
 func main() {
-	configDirPath := must(stdos.UserConfigDir())
-	fsys := must(resolveFS(configDirPath))
+	fsys := must(resolveFS(string(filepath.Separator)))
 
-	mcSavesPath := filepath.Join("minecraft", "saves")
+	configDirPath := must(stdos.UserConfigDir())
+	configDirPath = strings.TrimPrefix(configDirPath, string(filepath.Separator))
+	mcSavesPath := filepath.Join(configDirPath, "minecraft", "saves")
 	fi := must(fsys.Stat(mcSavesPath))
+
 	if fi.IsDir() {
 		worldDirs := must(fsys.ReadDir(mcSavesPath))
 
@@ -29,10 +31,6 @@ func main() {
 			}
 		}
 	}
-}
-
-func resolveWorlds(fsResolver func() (*os.FS, error)) []scan.World {
-	return nil
 }
 
 func resolveFS(base string) (*os.FS, error) {
