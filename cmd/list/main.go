@@ -8,12 +8,15 @@ import (
 	"strings"
 
 	"github.com/hack-pad/hackpadfs/os"
+	"github.com/tauraamui/mcscan/internal/scan"
 	"github.com/tauraamui/mcscan/vfs"
 )
 
 // ~/Library/Application Support/minecraft
 
 func main() {
+	// Acquire file system access which starts from root
+	// rather than one which starts from user config dir.
 	fsys := must(resolveFS(string(filepath.Separator)))
 
 	configDirPath := must(stdos.UserConfigDir())
@@ -25,9 +28,15 @@ func main() {
 		worldDirs := must(fsys.ReadDir(mcSavesPath))
 
 		for _, wdir := range worldDirs {
+			if !wdir.IsDir() {
+				continue
+			}
 			name := wdir.Name()
 			if !vfs.IsHidden(name) {
-				fmt.Printf(filepath.Join(configDirPath, mcSavesPath, name) + "\n")
+				wdirFullPath := filepath.Join(mcSavesPath, name)
+				fmt.Println(wdirFullPath)
+				world := must(scan.OpenWorld(fsys, wdirFullPath))
+				must(0, world.Close())
 			}
 		}
 	}
