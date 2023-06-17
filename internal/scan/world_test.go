@@ -11,7 +11,7 @@ import (
 func buildMockFS() fstest.MapFS {
 	return fstest.MapFS{
 		"config/minecraft/saves/test world/region/r.0.0.mca": &fstest.MapFile{
-			Data: []byte{},
+			Data: region0,
 		},
 	}
 }
