@@ -1,8 +1,12 @@
 .DEFAULT_GOAL := default
 
-.PHONY: run
-run:
+.PHONY: run-scan
+run-scan:
 	go run cmd/scan/main.go
+
+.PHONY: run-list
+run-list:
+	go run cmd/list/main.go
 
 .PHONY: test
 test:
