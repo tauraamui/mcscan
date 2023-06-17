@@ -8,6 +8,10 @@ run-scan:
 run-list:
 	go run cmd/list/main.go
 
+.PHONY: run-level
+run-level:
+	go run cmd/level/main.go
+
 .PHONY: test
 test:
 	gotestsum ./...
