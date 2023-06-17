@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	stdos "os"
@@ -35,11 +34,9 @@ func main() {
 			name := wdir.Name()
 			if !vfs.IsHidden(name) {
 				wdirFullPath := filepath.Join(mcSavesPath, name)
-				fmt.Println(wdirFullPath)
 				world := must(scan.OpenWorld(fsys, wdirFullPath))
 
-				lvlJSON := must(json.Marshal(must(world.ReadLevel())))
-				fmt.Printf("%s\n", lvlJSON)
+				fmt.Println(world.Name())
 
 				must(0, world.Close())
 			}
