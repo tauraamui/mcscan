@@ -117,6 +117,7 @@ func resolveRegionCounts(fsr fsResolver, c chan<- regionBlocks) error {
 		go func(wwg *sync.WaitGroup, f string, c chan<- regionBlocks) {
 			defer wwg.Done()
 			fd := must(fsys.Open(f))
+			defer fd.Close()
 			fi := must(fd.Stat())
 
 			rregion := must(region.Load(&readerWriterSeeker{fd: fd}))
