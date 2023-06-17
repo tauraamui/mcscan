@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	stdos "os"
@@ -36,6 +37,10 @@ func main() {
 				wdirFullPath := filepath.Join(mcSavesPath, name)
 				fmt.Println(wdirFullPath)
 				world := must(scan.OpenWorld(fsys, wdirFullPath))
+
+				lvlJSON := must(json.Marshal(must(world.ReadLevel())))
+				fmt.Printf("%s\n", lvlJSON)
+
 				must(0, world.Close())
 			}
 		}
