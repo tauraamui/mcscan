@@ -10,7 +10,7 @@ import (
 
 func buildMockFS() fstest.MapFS {
 	return fstest.MapFS{
-		"config/minecraft/test world/region/r.0.0.mca": &fstest.MapFile{
+		"config/minecraft/saves/test world/region/r.0.0.mca": &fstest.MapFile{
 			Data: []byte{},
 		},
 	}
@@ -18,7 +18,7 @@ func buildMockFS() fstest.MapFS {
 
 func TestWorldOpenReturnsWorldReferenceWithNoError(t *testing.T) {
 	is := is.New(t)
-	world, err := scan.OpenWorld(buildMockFS(), "config/minecraft/test world")
+	world, err := scan.OpenWorld(buildMockFS(), "config/minecraft/saves/test world")
 	is.NoErr(err)
 
 	is.True(world != nil)
