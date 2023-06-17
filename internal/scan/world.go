@@ -5,7 +5,9 @@ import (
 	"compress/gzip"
 	"fmt"
 	"io/fs"
+	stdos "os"
 	"path/filepath"
+	"strings"
 
 	"github.com/Tnze/go-mc/nbt"
 	"github.com/Tnze/go-mc/save"
@@ -23,6 +25,23 @@ type World struct {
 
 type Level struct {
 	save.Level
+}
+
+func OpenWorldByName(fsys filesystem.FS, name string) (*World, error) {
+	configDirPath := must(stdos.UserConfigDir())
+	configDirPath = strings.TrimPrefix(configDirPath, string(filepath.Separator))
+	worldSaveDirPath := filepath.Join(configDirPath, "minecraft", "saves", name)
+
+	fi, err := fsys.Stat(worldSaveDirPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if !fi.IsDir() {
+		return nil, fmt.Errorf("found %s but is not directory", worldSaveDirPath)
+	}
+
+	return OpenWorld(fsys, worldSaveDirPath)
 }
 
 func OpenWorld(fsys filesystem.FS, path string) (*World, error) {
