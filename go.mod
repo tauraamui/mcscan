@@ -4,12 +4,13 @@ go 1.19
 
 require (
 	github.com/Tnze/go-mc v1.19.4-pre1
+	github.com/alexflint/go-arg v1.4.3
 	github.com/dgraph-io/badger/v3 v3.2103.5
 	github.com/hack-pad/hackpadfs v0.2.1
-	github.com/matryer/is v1.4.1
 )
 
 require (
+	github.com/alexflint/go-scalar v1.1.0 // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/dgraph-io/ristretto v0.1.1 // indirect

@@ -6,17 +6,30 @@ import (
 	stdos "os"
 	"path/filepath"
 
+	"github.com/alexflint/go-arg"
 	"github.com/hack-pad/hackpadfs/os"
 	mc "github.com/tauraamui/mcscan/pkg/minecraft"
 )
 
+type args struct {
+	WorldName string `arg:"required"`
+}
+
+func (args) Version() string {
+	return "mcscan v0.0.0"
+}
+
 func main() {
+	var args args
+	arg.MustParse(&args)
+
 	fsys := must(resolveFS(string(filepath.Separator)))
 
-	world := must(mc.OpenWorldByName(fsys, "DebugTestWorld"))
-	fmt.Println(world.Name())
-
-	world.BlocksCount()
+	world, err := mc.OpenWorldByName(fsys, args.WorldName)
+	if errors.Is(err, stdos.ErrNotExist) {
+		fmt.Fprintf(stdos.Stderr, "could not find world data for '%s'\n", args.WorldName)
+		stdos.Exit(1)
+	}
 
 	lvl := must(world.ReadLevel())
 	lvl.Data.SpawnX = 125

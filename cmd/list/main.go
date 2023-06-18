@@ -12,8 +12,6 @@ import (
 	mc "github.com/tauraamui/mcscan/pkg/minecraft"
 )
 
-// ~/Library/Application Support/minecraft
-
 func main() {
 	// Acquire file system access which starts from root
 	// rather than one which starts from user config dir.
