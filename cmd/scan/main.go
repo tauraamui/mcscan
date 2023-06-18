@@ -17,9 +17,9 @@ import (
 	"github.com/dgraph-io/badger/v3"
 	"github.com/hack-pad/hackpadfs"
 	"github.com/hack-pad/hackpadfs/os"
-	"github.com/tauraamui/mcscan/internal/scan"
-	"github.com/tauraamui/mcscan/storage"
-	"github.com/tauraamui/mcscan/vfs"
+	mc "github.com/tauraamui/mcscan/internal/minecraft"
+	"github.com/tauraamui/mcscan/internal/storage"
+	"github.com/tauraamui/mcscan/internal/vfs"
 )
 
 type fsResolver func() (*os.FS, error)
@@ -124,7 +124,7 @@ func resolveRegionCounts(fsr fsResolver, c chan<- regionBlocks) error {
 			defer rregion.Close()
 
 			totalCounts := map[string]uint64{}
-			blocks := make(chan scan.Block)
+			blocks := make(chan mc.Block)
 
 			wg := sync.WaitGroup{}
 			wg.Add(2)
@@ -146,7 +146,7 @@ func resolveRegionCounts(fsr fsResolver, c chan<- regionBlocks) error {
 
 			go func(wg *sync.WaitGroup) {
 				defer wg.Done()
-				scan.Chunks(rregion, blocks)
+				mc.Chunks(rregion, blocks)
 			}(&wg)
 
 			wg.Wait()
@@ -192,7 +192,7 @@ func storeBlockFrquenciesWithVFS(fsr fsResolver, dbr dbResolver) error {
 
 			totalCounts := map[string]uint64{}
 
-			blocks := make(chan scan.Block)
+			blocks := make(chan mc.Block)
 
 			wg := sync.WaitGroup{}
 			wg.Add(2)
@@ -214,7 +214,7 @@ func storeBlockFrquenciesWithVFS(fsr fsResolver, dbr dbResolver) error {
 
 			go func(wg *sync.WaitGroup) {
 				defer wg.Done()
-				scan.Chunks(rregion, blocks)
+				mc.Chunks(rregion, blocks)
 			}(&wg)
 
 			wg.Wait()

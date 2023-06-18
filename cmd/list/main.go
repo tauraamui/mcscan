@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/hack-pad/hackpadfs/os"
-	"github.com/tauraamui/mcscan/internal/scan"
-	"github.com/tauraamui/mcscan/vfs"
+	mc "github.com/tauraamui/mcscan/internal/minecraft"
+	"github.com/tauraamui/mcscan/internal/vfs"
 )
 
 // ~/Library/Application Support/minecraft
@@ -34,7 +34,7 @@ func main() {
 			name := wdir.Name()
 			if !vfs.IsHidden(name) {
 				wdirFullPath := filepath.Join(mcSavesPath, name)
-				world := must(scan.OpenWorld(fsys, wdirFullPath))
+				world := must(mc.OpenWorld(fsys, wdirFullPath))
 
 				fmt.Println(world.Name())
 				fmt.Println(world.RegionsCount())

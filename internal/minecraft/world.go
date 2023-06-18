@@ -1,4 +1,4 @@
-package scan
+package minecraft
 
 import (
 	"bytes"
@@ -8,14 +8,12 @@ import (
 	stdos "os"
 	"path/filepath"
 	"strings"
-	"sync"
 
 	"github.com/Tnze/go-mc/nbt"
 	"github.com/Tnze/go-mc/save"
-	mcregion "github.com/Tnze/go-mc/save/region"
 	"github.com/hack-pad/hackpadfs"
 	"github.com/tauraamui/mcscan/internal/filesystem"
-	"github.com/tauraamui/mcscan/vfs"
+	"github.com/tauraamui/mcscan/internal/vfs"
 )
 
 type World struct {
@@ -46,55 +44,6 @@ func (s *region) Seek(offset int64, whence int) (int64, error) {
 }
 
 func (r region) blockCount() (map[string]uint64, error) {
-	fd, err := r.fsys.Open(r.path)
-	if err != nil {
-		return nil, err
-	}
-	defer fd.Close()
-
-	rdata, err := mcregion.Load(&r)
-	if err != nil {
-		return nil, err
-	}
-	defer rdata.Close()
-
-	totalCounts := map[string]uint64{}
-	blocks := make(chan Block)
-
-	wg := sync.WaitGroup{}
-	wg.Add(2)
-
-	go func(wg *sync.WaitGroup) {
-		defer wg.Done()
-
-		for b := range blocks {
-			blockCountKey := b.ID
-
-			count, ok := totalCounts[blockCountKey]
-			if !ok {
-				totalCounts[blockCountKey] = 1
-			}
-
-			totalCounts[blockCountKey] = count + 1
-		}
-	}(&wg)
-
-	go func(wg *sync.WaitGroup) {
-		defer wg.Done()
-		Chunks(rdata, blocks)
-	}(&wg)
-
-	wg.Wait()
-
-	Block{
-		ID: 
-	}
-	c <- regionBlocks{
-		size:   float64(fi.Size()) / 1024 / 1024,
-		name:   f,
-		counts: totalCounts,
-	}
-
 	return nil, nil
 }
 
@@ -192,10 +141,7 @@ func (w World) RegionsCount() int {
 	return len(w.regions)
 }
 
-func (w World) BlocksCount() {
-	for _, r := range w.regions {
-	}
-}
+func (w World) BlocksCount() {}
 
 func (w World) Close() error {
 	// TODO(tauraamui): Should handle errors as independant close failures,

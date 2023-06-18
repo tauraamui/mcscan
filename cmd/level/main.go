@@ -7,13 +7,13 @@ import (
 	"path/filepath"
 
 	"github.com/hack-pad/hackpadfs/os"
-	"github.com/tauraamui/mcscan/internal/scan"
+	mc "github.com/tauraamui/mcscan/internal/minecraft"
 )
 
 func main() {
 	fsys := must(resolveFS(string(filepath.Separator)))
 
-	world := must(scan.OpenWorldByName(fsys, "DebugTestWorld"))
+	world := must(mc.OpenWorldByName(fsys, "DebugTestWorld"))
 	fmt.Println(world.Name())
 
 	world.BlocksCount()

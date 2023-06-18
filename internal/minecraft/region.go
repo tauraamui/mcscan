@@ -1,4 +1,4 @@
-package scan
+package minecraft
 
 import (
 	"encoding/json"
