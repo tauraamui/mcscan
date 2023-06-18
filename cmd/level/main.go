@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	stdos "os"
@@ -13,8 +14,9 @@ import (
 )
 
 type args struct {
-	WorldPath string `arg:"--path"`
-	WorldName string `arg:"--name"`
+	WorldPath string   `arg:"--path"`
+	WorldName string   `arg:"--name"`
+	ViewCmd   *ViewCmd `arg:"subcommand:view" help:"display world level data as JSON"`
 }
 
 func (args) Version() string {
@@ -43,43 +45,80 @@ func main() {
 		p.Fail("provide either both --path or --name not both")
 	}
 
+	if p.Subcommand() == nil {
+		p.Fail("missing subcommand")
+	}
+
 	if nameDefined {
-		run(args.WorldName, mc.OpenWorldByName)
+		if err := runCmd(args.WorldName, mc.OpenWorldByName, p.Subcommand()); err != nil {
+			exit(err.Error())
+		}
 		return
 	}
 
-	run(args.WorldPath, mc.OpenWorld)
+	if err := runCmd(args.WorldPath, mc.OpenWorld, p.Subcommand()); err != nil {
+		exit(err.Error())
+	}
 }
 
-func run(worldRef string, worldResolver mc.WorldResolver) {
-	fsys := must(resolveFS(string(filepath.Separator)))
+type ViewCmd struct{}
+
+func runCmd(worldRef string, worldResolver mc.WorldResolver, subCmd any) error {
+	fsys, err := resolveFS(string(filepath.Separator))
+	if err != nil {
+		return err
+	}
 
 	world, err := worldResolver(fsys, worldRef)
 
 	if err != nil {
 		if errors.Is(err, stdos.ErrNotExist) {
-			fmt.Fprintf(stdos.Stderr, "could not find world data for '%s'\n", worldRef)
-		} else {
-			fmt.Fprintf(stdos.Stderr, err.Error())
+			return fmt.Errorf("could not find world data for '%s'", worldRef)
 		}
-		stdos.Exit(1)
+		return err
 	}
 
-	lvl := must(world.ReadLevel())
-	lvl.Data.SpawnX = 125
-	lvl.Data.SpawnY = 77
-	lvl.Data.SpawnZ = 163
+	switch subCmd.(type) {
+	case *ViewCmd:
+		lvl, err := world.ReadLevel()
+		if err != nil {
+			return err
+		}
 
-	lvl.Data.DayTime = 15000 // set time to night
+		lvlJSON, err := json.Marshal(&lvl)
+		if err != nil {
+			return err
+		}
 
-	must(0, world.WriteLevel(lvl))
+		fmt.Println(string(lvlJSON))
+	}
+
+	/*
+		lvl := must(world.ReadLevel())
+		lvl.Data.SpawnX = 125
+		lvl.Data.SpawnY = 77
+		lvl.Data.SpawnZ = 163
+
+		lvl.Data.DayTime = 15000 // set time to night
+
+		must(0, world.WriteLevel(lvl))
+	*/
+
+	return nil
 }
 
 func resolveFS(base string) (*os.FS, error) {
 	fs := os.NewFS()
 
-	baseDirectory := must(fs.FromOSPath(base)) // Convert to an FS path
-	baseDirFS := must(fs.Sub(baseDirectory))   // Run all file system operations rooted at the current working directory
+	baseDirectory, err := fs.FromOSPath(base) // Convert to an FS path
+	if err != nil {
+		return nil, err
+	}
+
+	baseDirFS, err := fs.Sub(baseDirectory) // Run all file system operations rooted at the current working directory
+	if err != nil {
+		return nil, err
+	}
 
 	ofs, ok := baseDirFS.(*os.FS)
 	if !ok {
@@ -89,10 +128,7 @@ func resolveFS(base string) (*os.FS, error) {
 	return ofs, nil
 }
 
-func must[T any](v T, err error) T {
-	if err != nil {
-		_, _ = fmt.Fprintln(stdos.Stderr, err)
-		stdos.Exit(1)
-	}
-	return v
+func exit(format string, a ...any) {
+	fmt.Fprintf(stdos.Stderr, format, a...)
+	stdos.Exit(1)
 }
