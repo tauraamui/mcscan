@@ -16,6 +16,8 @@ func main() {
 	world := must(scan.OpenWorldByName(fsys, "DebugTestWorld"))
 	fmt.Println(world.Name())
 
+	world.BlocksCount()
+
 	lvl := must(world.ReadLevel())
 	lvl.Data.SpawnX = 125
 	lvl.Data.SpawnY = 77

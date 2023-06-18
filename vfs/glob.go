@@ -3,7 +3,7 @@ package vfs
 import (
 	"path"
 
-	"github.com/hack-pad/hackpadfs/os"
+	"github.com/tauraamui/mcscan/internal/filesystem"
 )
 
 // Glob returns the names of all files matching pattern or nil
@@ -18,11 +18,11 @@ import (
 // If fs implements GlobFS, Glob calls fs.Glob.
 // Otherwise, Glob uses ReadDir to traverse the directory tree
 // and look for matches for the pattern.
-func Glob(fsys *os.FS, pattern string) (matches []string, err error) {
+func Glob(fsys filesystem.FS, pattern string) (matches []string, err error) {
 	return globWithLimit(fsys, pattern, 0)
 }
 
-func globWithLimit(fsys *os.FS, pattern string, depth int) (matches []string, err error) {
+func globWithLimit(fsys filesystem.FS, pattern string, depth int) (matches []string, err error) {
 	// This limit is added to prevent stack exhaustion issues. See
 	// CVE-2022-30630.
 	const pathSeparatorsLimit = 10000
@@ -81,7 +81,7 @@ func cleanGlobPath(path string) string {
 // and appends them to matches, returning the updated slice.
 // If the directory cannot be opened, glob returns the existing matches.
 // New matches are added in lexicographical order.
-func glob(fs *os.FS, dir, pattern string, matches []string) (m []string, e error) {
+func glob(fs filesystem.FS, dir, pattern string, matches []string) (m []string, e error) {
 	m = matches
 	infos, err := fs.ReadDir(dir)
 	if err != nil {

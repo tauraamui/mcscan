@@ -37,6 +37,7 @@ func main() {
 				world := must(scan.OpenWorld(fsys, wdirFullPath))
 
 				fmt.Println(world.Name())
+				fmt.Println(world.RegionsCount())
 
 				must(0, world.Close())
 			}
