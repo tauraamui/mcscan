@@ -80,17 +80,7 @@ func runCmd(worldRef string, worldResolver mc.WorldResolver, subCmd any) error {
 
 	switch subCmd.(type) {
 	case *ViewCmd:
-		lvl, err := world.ReadLevel()
-		if err != nil {
-			return err
-		}
-
-		lvlJSON, err := json.Marshal(&lvl)
-		if err != nil {
-			return err
-		}
-
-		fmt.Println(string(lvlJSON))
+		return viewCmd(world)
 	}
 
 	/*
@@ -103,6 +93,22 @@ func runCmd(worldRef string, worldResolver mc.WorldResolver, subCmd any) error {
 
 		must(0, world.WriteLevel(lvl))
 	*/
+
+	return nil
+}
+
+func viewCmd(world *mc.World) error {
+	lvl, err := world.ReadLevel()
+	if err != nil {
+		return err
+	}
+
+	lvlJSON, err := json.Marshal(&lvl)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(string(lvlJSON))
 
 	return nil
 }

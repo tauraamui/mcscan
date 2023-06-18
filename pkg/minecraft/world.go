@@ -48,7 +48,7 @@ func (r region) blockCount() (map[string]uint64, error) {
 }
 
 type Level struct {
-	save.Level
+	save.LevelData
 }
 
 type WorldResolver func(fsys filesystem.FS, ref string) (*World, error)
@@ -120,11 +120,12 @@ func (w World) ReadLevel() (*Level, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unable to read level.dat NBT data: %w", err)
 	}
-	return &Level{lvl}, nil
+	return &Level{lvl.Data}, nil
 }
 
 func (w World) WriteLevel(lvl *Level) error {
-	data, err := nbt.Marshal(lvl)
+	lll := save.Level{Data: save.LevelData(lvl.LevelData)}
+	data, err := nbt.Marshal(lll)
 	if err != nil {
 		return err
 	}
