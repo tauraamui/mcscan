@@ -6,6 +6,7 @@ import (
 	"fmt"
 	stdos "os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/alexflint/go-arg"
@@ -17,6 +18,7 @@ type args struct {
 	WorldPath string   `arg:"--path"`
 	WorldName string   `arg:"--name"`
 	ViewCmd   *ViewCmd `arg:"subcommand:view" help:"display world level data as JSON"`
+	EditCmd   *EditCmd `arg:"subcommand:edit" help:"update level data fields to given values"`
 }
 
 func (args) Version() string {
@@ -61,8 +63,6 @@ func main() {
 	}
 }
 
-type ViewCmd struct{}
-
 func runCmd(worldRef string, worldResolver mc.WorldResolver, subCmd any) error {
 	fsys, err := resolveFS(string(filepath.Separator))
 	if err != nil {
@@ -78,9 +78,11 @@ func runCmd(worldRef string, worldResolver mc.WorldResolver, subCmd any) error {
 		return err
 	}
 
-	switch subCmd.(type) {
+	switch cmd := subCmd.(type) {
 	case *ViewCmd:
 		return viewCmd(world)
+	case *EditCmd:
+		return editCmd(world, cmd)
 	}
 
 	/*
@@ -96,6 +98,81 @@ func runCmd(worldRef string, worldResolver mc.WorldResolver, subCmd any) error {
 
 	return nil
 }
+
+type EditCmd struct {
+	Values map[string]string
+}
+
+func editCmd(world *mc.World, cmd *EditCmd) error {
+	lvl, err := world.ReadLevel()
+	if err != nil {
+		return err
+	}
+
+	lvlJSON, err := json.Marshal(lvl)
+	if err != nil {
+		return err
+	}
+
+	var lvlData map[string]any
+	if err := json.Unmarshal(lvlJSON, &lvlData); err != nil {
+		return err
+	}
+
+	for editValKey, editValVal := range cmd.Values {
+		existingVal, ok := lvlData[editValKey]
+		if !ok {
+			return fmt.Errorf("property %s not found", editValKey)
+		}
+
+		switch existingVal.(type) {
+		case string:
+			lvlData[editValKey] = editValVal
+		case int:
+			valAsInt, err := strconv.Atoi(editValVal)
+			if err != nil {
+				return err
+			}
+			lvlData[editValKey] = valAsInt
+		case float32:
+			valAsFloat, err := strconv.ParseFloat(editValVal, 32)
+			if err != nil {
+				return err
+			}
+			lvlData[editValKey] = valAsFloat
+		case float64:
+			valAsFloat, err := strconv.ParseFloat(editValVal, 64)
+			if err != nil {
+				return err
+			}
+			lvlData[editValKey] = valAsFloat
+		case bool:
+			valAsBool, err := strconv.ParseBool(editValVal)
+			if err != nil {
+				return err
+			}
+			lvlData[editValKey] = valAsBool
+		}
+	}
+
+	lvlDataBytes, err := json.Marshal(lvlData)
+	if err != nil {
+		return err
+	}
+
+	editedLvl := mc.Level{}
+	if err := json.Unmarshal(lvlDataBytes, &editedLvl); err != nil {
+		return err
+	}
+
+	if err := world.WriteLevel(&editedLvl); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+type ViewCmd struct{}
 
 func viewCmd(world *mc.World) error {
 	lvl, err := world.ReadLevel()
@@ -135,6 +212,6 @@ func resolveFS(base string) (*os.FS, error) {
 }
 
 func exit(format string, a ...any) {
-	fmt.Fprintf(stdos.Stderr, format, a...)
+	fmt.Fprintf(stdos.Stderr, format+"\n", a...)
 	stdos.Exit(1)
 }
