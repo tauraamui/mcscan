@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/hack-pad/hackpadfs/os"
-	mc "github.com/tauraamui/mcscan/internal/minecraft"
+	mc "github.com/tauraamui/mcscan/pkg/minecraft"
 )
 
 func main() {

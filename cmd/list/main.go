@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/hack-pad/hackpadfs/os"
-	mc "github.com/tauraamui/mcscan/internal/minecraft"
 	"github.com/tauraamui/mcscan/internal/vfs"
+	mc "github.com/tauraamui/mcscan/pkg/minecraft"
 )
 
 // ~/Library/Application Support/minecraft

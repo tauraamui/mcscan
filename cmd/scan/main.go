@@ -17,9 +17,9 @@ import (
 	"github.com/dgraph-io/badger/v3"
 	"github.com/hack-pad/hackpadfs"
 	"github.com/hack-pad/hackpadfs/os"
-	mc "github.com/tauraamui/mcscan/internal/minecraft"
 	"github.com/tauraamui/mcscan/internal/storage"
 	"github.com/tauraamui/mcscan/internal/vfs"
+	mc "github.com/tauraamui/mcscan/pkg/minecraft"
 )
 
 type fsResolver func() (*os.FS, error)
