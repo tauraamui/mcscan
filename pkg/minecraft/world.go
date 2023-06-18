@@ -51,6 +51,8 @@ type Level struct {
 	save.Level
 }
 
+type WorldResolver func(fsys filesystem.FS, ref string) (*World, error)
+
 func OpenWorldByName(fsys filesystem.FS, name string) (*World, error) {
 	configDirPath := must(stdos.UserConfigDir())
 	configDirPath = strings.TrimPrefix(configDirPath, string(filepath.Separator))
