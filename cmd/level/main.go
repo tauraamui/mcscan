@@ -22,7 +22,7 @@ type args struct {
 }
 
 func (args) Version() string {
-	return "mcscan v0.0.0"
+	return "mcutils v0.0.0"
 }
 
 func main() {
