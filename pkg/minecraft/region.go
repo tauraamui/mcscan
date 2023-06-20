@@ -27,6 +27,8 @@ func ReadRegionsBlocks(r Region, c chan<- Block) {
 	// chestID := block.EntityTypes[chestEntity.ID()]
 	defer r.Close()
 
+	// TODO(tauraamui): re-write all of this
+
 	wg := sync.WaitGroup{}
 	for i := 0; i < 32; i++ {
 		for j := 0; j < 32; j++ {
