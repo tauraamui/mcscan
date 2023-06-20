@@ -152,27 +152,27 @@ func (w World) BlocksCount() (map[string]uint64, error) {
 		return count, nil
 	}
 
-	rref := w.regions[0]
-	fd, err := w.fsys.Open(rref.path)
-	if err != nil {
-		return nil, err
-	}
-
-	w.regions[0].fd = fd
-
-	loadedRegion, err := mcregion.Load(&w.regions[0])
-	if err != nil {
-		return nil, err
-	}
-
 	blocks := make(chan Block)
-
 	wg := sync.WaitGroup{}
-	wg.Add(1)
-	go func(wg *sync.WaitGroup) {
-		defer wg.Done()
-		ReadRegionsBlocks(loadedRegion, blocks)
-	}(&wg)
+	for i := 0; i < len(w.regions); i++ {
+		rref := w.regions[i]
+		fd, err := w.fsys.Open(rref.path)
+		if err != nil {
+			return nil, err
+		}
+		rref.fd = fd
+
+		loadedRegion, err := mcregion.Load(&rref)
+		if err != nil {
+			return nil, err
+		}
+
+		wg.Add(1)
+		go func(wg *sync.WaitGroup) {
+			defer wg.Done()
+			ReadRegionsBlocks(loadedRegion, blocks)
+		}(&wg)
+	}
 
 	go func(wg *sync.WaitGroup, bc chan Block) {
 		defer close(bc)
@@ -187,42 +187,6 @@ func (w World) BlocksCount() (map[string]uint64, error) {
 		}
 		count[blk.ID] = 1
 	}
-
-	/*
-		blocks := make(chan Block)
-		wg := sync.WaitGroup{}
-		wg.Add(len(w.regions))
-		for i, rref := range w.regions {
-			fd, err := w.fsys.Open(rref.path)
-			if err != nil {
-				return nil, err
-			}
-
-			w.regions[i].fd = fd
-
-			loadedRegion, err := mcregion.Load(&w.regions[i])
-			if err != nil {
-				return nil, err
-			}
-
-			go func(wg *sync.WaitGroup) {
-				defer wg.Done()
-				ReadRegionsBlocks(loadedRegion, blocks)
-			}(&wg)
-		}
-
-		doneCounting := make(chan struct{})
-		go func(dc chan struct{}) {
-			for blk := range blocks {
-				existingCount, ok := count[blk.ID]
-				if ok {
-					count[blk.ID] = existingCount + 1
-					continue
-				}
-				count[blk.ID] = 1
-			}
-		}(doneCounting)
-	*/
 
 	return count, nil
 }
