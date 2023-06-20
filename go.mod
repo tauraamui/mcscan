@@ -28,3 +28,5 @@ require (
 	golang.org/x/net v0.0.0-20201021035429-f5854403a974 // indirect
 	golang.org/x/sys v0.0.0-20221010170243-090e33056c14 // indirect
 )
+
+replace github.com/Tnze/go-mc => github.com/tauraamui/go-mc v1.19.4
