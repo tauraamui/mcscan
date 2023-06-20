@@ -28,6 +28,10 @@ func (args) Version() string {
 func main() {
 	var args args
 	p := arg.MustParse(&args)
+	execlevel(args, p)
+}
+
+func execlevel(args args, p *arg.Parser) {
 	args.WorldPath = strings.Trim(args.WorldPath, string(filepath.Separator))
 
 	if len(args.WorldName) == 0 && len(args.WorldPath) == 0 {
