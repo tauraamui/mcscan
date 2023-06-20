@@ -101,7 +101,7 @@ func runCmd(worldRef string, worldResolver mc.WorldResolver) error {
 	}
 
 	for k, v := range blocks {
-		fmt.Printf("KEY: %s, COUNT: %d\n", k, v)
+		fmt.Printf("%s %d\n", k, v)
 	}
 
 	return nil
