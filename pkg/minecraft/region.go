@@ -57,6 +57,11 @@ func ReadRegionsBlocks(r Region, c chan<- Block) {
 
 				lc := must(level.ChunkFromSave(&sc))
 
+				for i := 0; i < len(lc.BlockEntity); i++ {
+					be := lc.BlockEntity[i]
+					c <- Block{ID: block.EntityList[be.Type].ID()}
+				}
+
 				count := len(lc.Sections)
 
 				if count == 0 {
