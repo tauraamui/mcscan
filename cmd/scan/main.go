@@ -47,18 +47,14 @@ func execscan(args args, p *arg.Parser) {
 		p.Fail("provide either both --path or --name not both")
 	}
 
-	if p.Subcommand() == nil {
-		p.Fail("missing subcommand")
-	}
-
 	if nameDefined {
-		if err := runCmd(args.WorldName, mc.OpenWorldByName, p.Subcommand()); err != nil {
+		if err := runCmd(args.WorldName, mc.OpenWorldByName); err != nil {
 			exit(err.Error())
 		}
 		return
 	}
 
-	if err := runCmd(args.WorldPath, mc.OpenWorld, p.Subcommand()); err != nil {
+	if err := runCmd(args.WorldPath, mc.OpenWorld); err != nil {
 		exit(err.Error())
 	}
 }
@@ -84,7 +80,7 @@ func resolveFS(base string) (*os.FS, error) {
 	return ofs, nil
 }
 
-func runCmd(worldRef string, worldResolver mc.WorldResolver, subCmd any) error {
+func runCmd(worldRef string, worldResolver mc.WorldResolver) error {
 	fsys, err := resolveFS(string(filepath.Separator))
 	if err != nil {
 		return err
@@ -98,6 +94,8 @@ func runCmd(worldRef string, worldResolver mc.WorldResolver, subCmd any) error {
 		}
 		return err
 	}
+
+	world.BlocksCount()
 
 	return nil
 }
