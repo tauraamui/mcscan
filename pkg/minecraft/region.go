@@ -15,16 +15,17 @@ import (
 type Region interface {
 	ReadSector(x, z int) (data []byte, err error)
 	ExistSector(x, z int) bool
+	Close() error
 }
 
 type Block struct {
 	ID string
 }
 
-func Chunks(r Region, c chan<- Block) {
+func ReadRegionsBlocks(r Region, c chan<- Block) {
 	// chestEntity := block.ChestEntity{}
 	// chestID := block.EntityTypes[chestEntity.ID()]
-	defer close(c)
+	defer r.Close()
 
 	wg := sync.WaitGroup{}
 	for i := 0; i < 32; i++ {

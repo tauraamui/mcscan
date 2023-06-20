@@ -8,9 +8,11 @@ import (
 	stdos "os"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"github.com/Tnze/go-mc/nbt"
 	"github.com/Tnze/go-mc/save"
+	mcregion "github.com/Tnze/go-mc/save/region"
 	"github.com/hack-pad/hackpadfs"
 	"github.com/tauraamui/mcscan/internal/filesystem"
 	"github.com/tauraamui/mcscan/internal/vfs"
@@ -31,20 +33,20 @@ type region struct {
 	path string
 }
 
-func (s *region) Read(p []byte) (n int, err error) {
-	return s.fd.Read(p)
+func (r *region) Read(p []byte) (n int, err error) {
+	return r.fd.Read(p)
 }
 
-func (s *region) Write(p []byte) (n int, err error) {
-	return len(p), s.fsys.WriteFile(s.path, p, fs.ModePerm)
+func (r *region) Write(p []byte) (n int, err error) {
+	return len(p), r.fsys.WriteFile(r.path, p, fs.ModePerm)
 }
 
-func (s *region) Seek(offset int64, whence int) (int64, error) {
-	return hackpadfs.SeekFile(s.fd, offset, whence)
+func (r *region) Seek(offset int64, whence int) (int64, error) {
+	return hackpadfs.SeekFile(r.fd, offset, whence)
 }
 
-func (r region) blockCount() (map[string]uint64, error) {
-	return nil, nil
+func (r *region) Close() error {
+	return r.fd.Close()
 }
 
 type Level struct {
@@ -86,15 +88,15 @@ func OpenWorld(fsys filesystem.FS, path string) (*World, error) {
 }
 
 func (w *World) resolveRegions() error {
-	regionsDir := filepath.Join(w.path, "region")
+	regionFiles := filepath.Join(w.path, "region", "*.mca")
 
-	found, err := vfs.Glob(w.fsys, regionsDir)
+	found, err := vfs.Glob(w.fsys, regionFiles)
 	if err != nil {
 		return err
 	}
 
 	for _, f := range found {
-		w.regions = append(w.regions, region{path: f})
+		w.regions = append(w.regions, region{fsys: w.fsys, path: f})
 	}
 
 	return nil
@@ -144,7 +146,86 @@ func (w World) RegionsCount() int {
 	return len(w.regions)
 }
 
-func (w World) BlocksCount() {}
+func (w World) BlocksCount() (map[string]uint64, error) {
+	count := map[string]uint64{}
+	if len(w.regions) == 0 {
+		return count, nil
+	}
+
+	rref := w.regions[0]
+	fd, err := w.fsys.Open(rref.path)
+	if err != nil {
+		return nil, err
+	}
+
+	w.regions[0].fd = fd
+
+	loadedRegion, err := mcregion.Load(&w.regions[0])
+	if err != nil {
+		return nil, err
+	}
+
+	blocks := make(chan Block)
+
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	go func(wg *sync.WaitGroup) {
+		defer wg.Done()
+		ReadRegionsBlocks(loadedRegion, blocks)
+	}(&wg)
+
+	go func(wg *sync.WaitGroup, bc chan Block) {
+		defer close(bc)
+		wg.Wait()
+	}(&wg, blocks)
+
+	for blk := range blocks {
+		existingCount, ok := count[blk.ID]
+		if ok {
+			count[blk.ID] = existingCount + 1
+			continue
+		}
+		count[blk.ID] = 1
+	}
+
+	/*
+		blocks := make(chan Block)
+		wg := sync.WaitGroup{}
+		wg.Add(len(w.regions))
+		for i, rref := range w.regions {
+			fd, err := w.fsys.Open(rref.path)
+			if err != nil {
+				return nil, err
+			}
+
+			w.regions[i].fd = fd
+
+			loadedRegion, err := mcregion.Load(&w.regions[i])
+			if err != nil {
+				return nil, err
+			}
+
+			go func(wg *sync.WaitGroup) {
+				defer wg.Done()
+				ReadRegionsBlocks(loadedRegion, blocks)
+			}(&wg)
+		}
+
+		doneCounting := make(chan struct{})
+		go func(dc chan struct{}) {
+			for blk := range blocks {
+				existingCount, ok := count[blk.ID]
+				if ok {
+					count[blk.ID] = existingCount + 1
+					continue
+				}
+				count[blk.ID] = 1
+			}
+		}(doneCounting)
+	*/
+
+	return count, nil
+}
 
 func (w World) Close() error {
 	// TODO(tauraamui): Should handle errors as independant close failures,

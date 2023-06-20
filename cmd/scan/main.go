@@ -95,7 +95,14 @@ func runCmd(worldRef string, worldResolver mc.WorldResolver) error {
 		return err
 	}
 
-	world.BlocksCount()
+	blocks, err := world.BlocksCount()
+	if err != nil {
+		exit(err.Error())
+	}
+
+	for k, v := range blocks {
+		fmt.Printf("KEY: %s, COUNT: %d\n", k, v)
+	}
 
 	return nil
 }
