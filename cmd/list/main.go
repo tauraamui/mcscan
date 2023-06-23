@@ -7,12 +7,23 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/alexflint/go-arg"
 	"github.com/hack-pad/hackpadfs/os"
 	"github.com/tauraamui/mcscan/internal/vfs"
 	mc "github.com/tauraamui/mcscan/pkg/minecraft"
 )
 
+type args struct {
+	Fullpath bool
+}
+
 func main() {
+	var args args
+	arg.MustParse(&args)
+	execlist(args)
+}
+
+func execlist(args args) {
 	// Acquire file system access which starts from root
 	// rather than one which starts from user config dir.
 	fsys := must(resolveFS(string(filepath.Separator)))
@@ -34,7 +45,11 @@ func main() {
 				wdirFullPath := filepath.Join(mcSavesPath, name)
 				world := must(mc.OpenWorld(fsys, wdirFullPath))
 
-				fmt.Println(world.Name())
+				if args.Fullpath {
+					fmt.Println(wdirFullPath)
+				} else {
+					fmt.Println(world.Name())
+				}
 
 				must(0, world.Close())
 			}
